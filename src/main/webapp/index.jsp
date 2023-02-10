@@ -5,9 +5,9 @@
     <title>Página inicial</title>
 </head>
 <body>
+<h1>Login teste</h1>
 
-<h1>Formulário</h1>
-<form action="receber-nome.jsp">
+<form action="ServletLogin" method="post">
     <input name="nome">
     <input name="idade">
 
