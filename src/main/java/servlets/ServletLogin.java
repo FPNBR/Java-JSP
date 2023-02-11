@@ -1,5 +1,7 @@
 package servlets;
 
+import model.ModelLogin;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -15,7 +17,17 @@ public class ServletLogin extends HttpServlet {
 
     @Override // Recebe os dados enviados por um formulário
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println(request.getParameter("nome"));
-        System.out.println(request.getParameter("idade"));
+        String login = request.getParameter("login");
+        String senha = request.getParameter("senha");
+
+        if (login != null && !login.isEmpty() && senha != null && !senha.isEmpty()) {
+            ModelLogin modelLogin = new ModelLogin();
+            modelLogin.setLogin(login);
+            modelLogin.setSenha(login);
+        } else {
+            RequestDispatcher redirecionar = request.getRequestDispatcher("index.jsp");
+            request.setAttribute("msg", "Informe o login e senha corretamente!");
+            redirecionar.forward(request, response);
+        }
     }
 }
