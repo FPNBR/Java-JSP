@@ -9,7 +9,6 @@ import java.io.IOException;
 
 @WebServlet(name = "ServletLogin", value = "/ServletLogin") // Mapeamento da URL que vem da tela
 public class ServletLogin extends HttpServlet {
-
     @Override // Recebe os dados pela url em parâmetros
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -24,6 +23,18 @@ public class ServletLogin extends HttpServlet {
             ModelLogin modelLogin = new ModelLogin();
             modelLogin.setLogin(login);
             modelLogin.setSenha(login);
+
+            // Simular login
+            if (modelLogin.getLogin().equalsIgnoreCase("admin") && modelLogin.getSenha().equalsIgnoreCase("admin")) {
+                request.getSession().setAttribute("usuario", modelLogin.getLogin());
+                RequestDispatcher redirecionar = request.getRequestDispatcher("/principal/principal.jsp");
+                redirecionar.forward(request, response);
+            } else {
+                RequestDispatcher redirecionar = request.getRequestDispatcher("index.jsp");
+                request.setAttribute("msg", "Informe o login e senha corretamente!");
+                redirecionar.forward(request, response);
+            }
+
         } else {
             RequestDispatcher redirecionar = request.getRequestDispatcher("index.jsp");
             request.setAttribute("msg", "Informe o login e senha corretamente!");
