@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 public class SingleConnection {
     private static final String banco = "jdbc:postgresql://localhost:5432/jsp?autoReconnect=true";
     private static final String usuario = "postgres";
-    private static final String senha = "postgres";
+    private static final String senha = "admin";
     private static Connection connection = null;
 
     public static Connection getConnection() {
