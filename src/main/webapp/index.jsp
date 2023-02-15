@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>Página inicial</title>
+    <title>Login</title>
 </head>
 <body>
 
@@ -16,7 +16,7 @@
                     <input type="hidden" value="<%= request.getParameter("url") %>" name="url">
                     <div class="row">
                         <div class="col">
-                            <h2>Entrar no sistema</h2>
+                            <h2 class="text-center">Entrar no sistema</h2>
                             <label class="form-label" for="login">Login</label>
                             <input class="form-control" name="login" type="text" required id="login">
                             <div class="invalid-feedback">

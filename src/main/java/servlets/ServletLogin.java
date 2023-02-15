@@ -14,6 +14,7 @@ public class ServletLogin extends HttpServlet {
     private DAOLoginRepository daoLoginRepository = new DAOLoginRepository();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { // Recebe os dados pela url em parâmetros
+        doPost(request,response);
     }
 
     @Override
