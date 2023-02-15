@@ -11,20 +11,26 @@
 
     <div class="container">
         <div class="row justify-content-center row align-items-center vh-100">
-            <div class="col-3">
-                <form action="ServletLogin" method="post">
+            <div class="col-6">
+                <form action="ServletLogin" method="post" class="needs-validation" novalidate>
                     <input type="hidden" value="<%= request.getParameter("url") %>" name="url">
                     <div class="row">
                         <div class="col">
                             <h2>Entrar no sistema</h2>
                             <label class="form-label" for="login">Login</label>
-                            <input class="form-control" name="login" type="text" id="login">
+                            <input class="form-control" name="login" type="text" required id="login">
+                            <div class="invalid-feedback">
+                                Digite seu login!
+                            </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col mb-2">
                             <label class="form-label" for="senha">Senha</label>
-                            <input class="form-control" name="senha" type="password" id="senha">
+                            <input class="form-control" name="senha" required type="password" id="senha">
+                            <div class="invalid-feedback">
+                                Digite sua senha!
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -39,6 +45,27 @@
     </div>
 </form>
 
+    <script type="text/javascript">
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (() => {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>
