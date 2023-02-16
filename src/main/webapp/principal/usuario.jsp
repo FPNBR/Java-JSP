@@ -31,9 +31,35 @@
                             <div class="page-wrapper">
                                 <!-- Page-body start -->
                                 <div class="page-body">
+
                                     <div class="row">
-                                        <h1>Cadastro de usuário</h1>
-                                    </div>
+                                        <div class="col-sm-12">
+                                            <!-- Basic Form Inputs card start -->
+                                            <div class="card">
+                                                <div class="card-block">
+                                                    <h4 class="sub-title">Cadastro de usuário</h4>
+                                                    <form class="form-material">
+                                                        <div class="form-group form-default">
+                                                            <input type="text" name="footer-email" class="form-control" required="">
+                                                            <span class="form-bar"></span>
+                                                            <label class="float-label">Nome completo</label>
+                                                        </div>
+                                                        <div class="form-group form-default">
+                                                            <input type="email" name="footer-email" class="form-control" required="">
+                                                            <span class="form-bar"></span>
+                                                            <label class="float-label">Email (exemplo@gmail.com)</label>
+                                                        </div>
+                                                        <div class="form-group form-default">
+                                                            <input type="password" name="footer-email" class="form-control" required="">
+                                                            <span class="form-bar"></span>
+                                                            <label class="float-label">Senha</label>
+                                                        </div>
+                                                        <button class="btn btn-success waves-effect waves-light">Cadastrar</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                 </div>
                                 <!-- Page-body end -->
                             </div>
