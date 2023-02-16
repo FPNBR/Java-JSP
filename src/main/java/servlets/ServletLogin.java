@@ -14,7 +14,15 @@ public class ServletLogin extends HttpServlet {
     private DAOLoginRepository daoLoginRepository = new DAOLoginRepository();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { // Recebe os dados pela url em parâmetros
-        doPost(request,response);
+        String acao = request.getParameter("acao");
+
+        if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("logout")) {
+            request.getSession().invalidate(); // invalida a sessão
+            RequestDispatcher redirecionar = request.getRequestDispatcher("index.jsp");
+            redirecionar.forward(request, response);
+        } else {
+            doPost(request, response);
+        }
     }
 
     @Override
@@ -41,19 +49,19 @@ public class ServletLogin extends HttpServlet {
                     redirecionar.forward(request, response);
 
                 } else {
-                    RequestDispatcher redirecionar = request.getRequestDispatcher("/index.jsp");
+                    RequestDispatcher redirecionar = request.getRequestDispatcher("index.jsp");
                     request.setAttribute("msg", "Informe o login e senha corretamente!");
                     redirecionar.forward(request, response);
                 }
 
             } else {
-                RequestDispatcher redirecionar = request.getRequestDispatcher("/index.jsp");
+                RequestDispatcher redirecionar = request.getRequestDispatcher("index.jsp");
                 request.setAttribute("msg", "Informe o login e senha corretamente!");
                 redirecionar.forward(request, response);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            RequestDispatcher redirecionar = request.getRequestDispatcher("/erro.jsp");
+            RequestDispatcher redirecionar = request.getRequestDispatcher("erro.jsp");
             request.setAttribute("msg", e.getMessage());
             redirecionar.forward(request, response);
         }
