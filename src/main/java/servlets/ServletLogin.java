@@ -47,13 +47,13 @@ public class ServletLogin extends HttpServlet {
                 }
 
             } else {
-                RequestDispatcher redirecionar = request.getRequestDispatcher("index.jsp");
+                RequestDispatcher redirecionar = request.getRequestDispatcher("/index.jsp");
                 request.setAttribute("msg", "Informe o login e senha corretamente!");
                 redirecionar.forward(request, response);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            RequestDispatcher redirecionar = request.getRequestDispatcher("erro.jsp");
+            RequestDispatcher redirecionar = request.getRequestDispatcher("/erro.jsp");
             request.setAttribute("msg", e.getMessage());
             redirecionar.forward(request, response);
         }
