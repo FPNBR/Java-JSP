@@ -41,14 +41,14 @@
       <li class="pcoded-hasmenu">
         <a href="javascript:void(0)" class="waves-effect waves-dark">
           <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i></span>
-          <span class="pcoded-mtext"  data-i18n="nav.basic-components.main">Cadastros</span>
+          <span class="pcoded-mtext"  data-i18n="nav.basic-components.main">Cadastrar</span>
           <span class="pcoded-mcaret"></span>
         </a>
         <ul class="pcoded-submenu">
           <li class=" ">
             <a href="${pageContext.request.contextPath}/principal/usuario.jsp" class="waves-effect waves-dark">
               <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-              <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Usuários</span>
+              <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Usuário</span>
               <span class="pcoded-mcaret"></span>
             </a>
           </li>

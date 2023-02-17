@@ -38,28 +38,37 @@
                                             <div class="card">
                                                 <div class="card-block">
                                                     <h4 class="sub-title">Cadastro de usuário</h4>
-                                                    <form class="form-material">
+                                                    <form class="form-material" action="<%= request.getContextPath()%>/ServletUsuarioController" method="post">
                                                         <div class="form-group form-default">
-                                                            <input type="text" name="footer-email" class="form-control" required="">
+                                                            <input type="text" name="id" id="id" class="form-control" autocomplete="off" readonly="readonly">
                                                             <span class="form-bar"></span>
-                                                            <label class="float-label">Nome completo</label>
+                                                            <label class="float-label">ID:</label>
                                                         </div>
                                                         <div class="form-group form-default">
-                                                            <input type="email" name="footer-email" class="form-control" required="">
+                                                            <input type="text" name="nome" id="nome" class="form-control" required="required" autocomplete="off">
                                                             <span class="form-bar"></span>
-                                                            <label class="float-label">Email (exemplo@gmail.com)</label>
+                                                            <label class="float-label">Nome completo:</label>
                                                         </div>
                                                         <div class="form-group form-default">
-                                                            <input type="password" name="footer-email" class="form-control" required="">
+                                                            <input type="email" name="email" id="email" class="form-control" required="required" autocomplete="off">
                                                             <span class="form-bar"></span>
-                                                            <label class="float-label">Senha</label>
+                                                            <label class="float-label">Email: (exemplo@gmail.com)</label>
+                                                        </div>
+                                                        <div class="form-group form-default">
+                                                            <input type="text" name="login" id="login" class="form-control" required="required" autocomplete="off">
+                                                            <span class="form-bar"></span>
+                                                            <label class="float-label">Login:</label>
+                                                        </div>
+                                                        <div class="form-group form-default">
+                                                            <input type="password" name="senha" id="senha" class="form-control" required="required" autocomplete="off">
+                                                            <span class="form-bar"></span>
+                                                            <label class="float-label">Senha:</label>
                                                         </div>
                                                         <button class="btn btn-success waves-effect waves-light">Cadastrar</button>
                                                     </form>
                                                 </div>
                                             </div>
                                         </div>
-
                                 </div>
                                 <!-- Page-body end -->
                             </div>
