@@ -12,8 +12,12 @@ CREATE DATABASE jsp
 // Criar tabela
 CREATE TABLE IF NOT EXISTS public.model_login
 (
-    login character varying(200) COLLATE pg_catalog."default",
-    senha character varying(200) COLLATE pg_catalog."default",
+    login character varying(256) COLLATE pg_catalog."default" NOT NULL DEFAULT NULL::character varying,
+    senha character varying(256) COLLATE pg_catalog."default" NOT NULL DEFAULT NULL::character varying,
+    id integer NOT NULL DEFAULT nextval('model_login_id_seq'::regclass),
+    nome character varying(256) COLLATE pg_catalog."default" NOT NULL DEFAULT NULL::character varying,
+    email character varying(256) COLLATE pg_catalog."default" NOT NULL DEFAULT NULL::character varying,
+    CONSTRAINT model_login_pkey PRIMARY KEY (id),
     CONSTRAINT login_unique UNIQUE (login)
 )
 
@@ -26,3 +30,8 @@ ALTER TABLE IF EXISTS public.model_login
 INSERT INTO public.model_login(
 	login, senha)
 	VALUES ('admin', 'admin');
+
+// Adicionar coluna
+alter table model_login add id serial primary key;
+alter table model_login add nome character varying(256);
+alter table model_login add email character varying(256);
