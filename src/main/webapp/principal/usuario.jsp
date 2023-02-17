@@ -40,31 +40,33 @@
                                                     <h4 class="sub-title">Cadastro de usuário</h4>
                                                     <form class="form-material" action="<%= request.getContextPath()%>/ServletUsuarioController" method="post">
                                                         <div class="form-group form-default">
-                                                            <input type="text" name="id" id="id" class="form-control" autocomplete="off" readonly="readonly">
+                                                            <input type="text" name="id" id="id" class="form-control" autocomplete="off" readonly="readonly" value="${modelLogin.id}">
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">ID:</label>
                                                         </div>
                                                         <div class="form-group form-default">
-                                                            <input type="text" name="nome" id="nome" class="form-control" required="required" autocomplete="off">
+                                                            <input type="text" name="nome" id="nome" class="form-control" required="required" autocomplete="off" value="${modelLogin.nome}">
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">Nome completo:</label>
                                                         </div>
                                                         <div class="form-group form-default">
-                                                            <input type="email" name="email" id="email" class="form-control" required="required" autocomplete="off">
+                                                            <input type="email" name="email" id="email" class="form-control" required="required" autocomplete="off" value="${modelLogin.email}">
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">Email: (exemplo@gmail.com)</label>
                                                         </div>
                                                         <div class="form-group form-default">
-                                                            <input type="text" name="login" id="login" class="form-control" required="required" autocomplete="off">
+                                                            <input type="text" name="login" id="login" class="form-control" required="required" autocomplete="off" value="${modelLogin.login}">
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">Login:</label>
                                                         </div>
                                                         <div class="form-group form-default">
-                                                            <input type="password" name="senha" id="senha" class="form-control" required="required" autocomplete="off">
+                                                            <input type="password" name="senha" id="senha" class="form-control" required="required" autocomplete="off" value="${modelLogin.senha}">
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">Senha:</label>
                                                         </div>
-                                                        <button class="btn btn-success waves-effect waves-light">Cadastrar</button>
+                                                        <button class="btn btn-primary waves-effect waves-light">Novo</button>
+                                                        <button class="btn btn-success waves-effect waves-light">Salvar</button>
+                                                        <button class="btn btn-info waves-effect waves-light">Excluir</button>
                                                     </form>
                                                 </div>
                                             </div>
