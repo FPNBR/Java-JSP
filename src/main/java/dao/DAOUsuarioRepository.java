@@ -53,10 +53,27 @@ public class DAOUsuarioRepository {
                 modelLogin.setSenha(resultSet.getString("senha"));
             }
             return modelLogin;
+
         }catch (Exception e) {
             e.printStackTrace();
             connection.rollback();
             throw new SQLException("Erro ao consultar usuário: " + e.getMessage());
         }
+    }
+
+    public boolean validarLogin(String login) throws SQLException {
+         try {
+             String sql = "select count(1) > 0 as existe from model_login where upper(login) = upper(login)";
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery();
+             resultSet.next();
+             return resultSet.getBoolean("existe");
+
+        }catch (Exception e) {
+             e.printStackTrace();
+             connection.rollback();
+             throw new SQLException("Erro ao consultar login do usuário: " + e.getMessage());
+         }
+
     }
 }
