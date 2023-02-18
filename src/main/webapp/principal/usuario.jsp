@@ -68,6 +68,7 @@
                                                         <button class="btn btn-success waves-effect waves-light">Salvar</button>
                                                         <button class="btn btn-info waves-effect waves-light">Excluir</button>
                                                     </form>
+                                                    <span>${msg}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -87,4 +88,3 @@
 
 </body>
 </html>
-
