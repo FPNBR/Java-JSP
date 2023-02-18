@@ -33,7 +33,7 @@ public class ServletUsuarioController extends HttpServlet {
             modelLogin.setLogin(login);
             modelLogin.setSenha(senha);
 
-            daoUsuarioRepository.salvarUsuario(modelLogin);
+            modelLogin = daoUsuarioRepository.salvarUsuario(modelLogin);
 
             request.setAttribute("msg", "Operação realizada com sucesso!");
             request.setAttribute("modelLogin", modelLogin);
