@@ -39,6 +39,7 @@ public class ServletUsuarioController extends HttpServlet {
             }else {
                 modelLogin = daoUsuarioRepository.salvarUsuario(modelLogin);
             }
+
             request.setAttribute("msg", msg);
             request.setAttribute("modelLogin", modelLogin);
             request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);

@@ -18,21 +18,33 @@ public class DAOUsuarioRepository {
     public ModelLogin salvarUsuario(ModelLogin usuario) throws SQLException {
 
         try {
-            String sql = "insert into model_login (login, nome, email, senha) VALUES (?, ?, ?, ?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, usuario.getLogin());
-            preparedStatement.setString(2, usuario.getNome());
-            preparedStatement.setString(3, usuario.getEmail());
-            preparedStatement.setString(4, usuario.getSenha());
-            preparedStatement.executeUpdate();
-            connection.commit();
+            if (usuario.idExiste()) { // Grava um novo usuário se o boolean for verdadeiro
+                String sql = "INSERT INTO model_login (login, nome, email, senha) VALUES (?, ?, ?, ?)";
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, usuario.getLogin());
+                preparedStatement.setString(2, usuario.getNome());
+                preparedStatement.setString(3, usuario.getEmail());
+                preparedStatement.setString(4, usuario.getSenha());
+                preparedStatement.execute();
+                connection.commit();
+
+            } else { // Atualiza o usuário se o boolean for false
+                String sql = "UPDATE model_login SET login=?, nome=?, email=?, senha=? WHERE id = "+usuario.getId()+";";
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, usuario.getLogin());
+                preparedStatement.setString(2, usuario.getNome());
+                preparedStatement.setString(3, usuario.getEmail());
+                preparedStatement.setString(4, usuario.getSenha());
+                preparedStatement.executeUpdate();
+                connection.commit();
+            }
 
             return this.consultarUsuario(usuario.getLogin());
 
         }catch (Exception e) {
             e.printStackTrace();
             connection.rollback();
-            throw new SQLException("Erro ao consultar usuário: " + e.getMessage());
+            throw new SQLException("Erro ao cadastrar/atualizar usuario: " + e.getMessage());
         }
     }
 
@@ -63,7 +75,7 @@ public class DAOUsuarioRepository {
 
     public boolean validarLogin(String login) throws SQLException {
          try {
-             String sql = "select count(1) > 0 as existe from model_login where upper(login) = upper(login)";
+             String sql = "select count(1) > 0 as existe from model_login where upper(login) = upper('"+login+"');";
              PreparedStatement preparedStatement = connection.prepareStatement(sql);
              ResultSet resultSet = preparedStatement.executeQuery();
              resultSet.next();

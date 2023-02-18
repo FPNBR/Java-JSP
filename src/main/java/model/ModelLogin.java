@@ -10,6 +10,15 @@ public class ModelLogin implements Serializable {
     private String login;
     private String senha;
 
+    public boolean idExiste() { // Método para verificar se o usuário já possui um id ou não
+        if (this.id == null) {
+            return true; // Inserir novo usuário
+        }else if (this.id != null && this.id > 0) {
+            return false; // Atualizar usuário
+        }
+        return id == null;
+    }
+
     public Long getId() {
         return id;
     }
@@ -49,4 +58,5 @@ public class ModelLogin implements Serializable {
     public void setSenha(String senha) {
         this.senha = senha;
     }
+
 }
