@@ -29,7 +29,7 @@ public class DAOUsuarioRepository {
                 connection.commit();
 
             } else { // Atualiza o usuário se o boolean for false
-                String sql = "UPDATE model_login SET login=?, nome=?, email=?, senha=? WHERE id = "+usuario.getId()+";";
+                String sql = "UPDATE model_login SET login=?, nome=?, email=?, senha=? WHERE id = " + usuario.getId() + ";";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(1, usuario.getLogin());
                 preparedStatement.setString(2, usuario.getNome());
@@ -41,7 +41,7 @@ public class DAOUsuarioRepository {
 
             return this.consultarUsuario(usuario.getLogin());
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             connection.rollback();
             throw new SQLException("Erro ao cadastrar/atualizar usuario: " + e.getMessage());
@@ -66,7 +66,7 @@ public class DAOUsuarioRepository {
             }
             return modelLogin;
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             connection.rollback();
             throw new SQLException("Erro ao consultar usuário: " + e.getMessage());
@@ -74,18 +74,31 @@ public class DAOUsuarioRepository {
     }
 
     public boolean validarLogin(String login) throws SQLException {
-         try {
-             String sql = "select count(1) > 0 as existe from model_login where upper(login) = upper('"+login+"');";
-             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-             ResultSet resultSet = preparedStatement.executeQuery();
-             resultSet.next();
-             return resultSet.getBoolean("existe");
+        try {
+            String sql = "select count(1) > 0 as existe from model_login where upper(login) = upper('" + login + "');";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getBoolean("existe");
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            connection.rollback();
+            throw new SQLException("Erro ao consultar login do usuário: " + e.getMessage());
+        }
+
+    }
+
+    public void deletarUsuario(String idUsuario) throws SQLException {
+        try {
+            String sql = "DELETE FROM model_login WHERE id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1, Long.parseLong(idUsuario));
+            preparedStatement.executeUpdate();
+            connection.commit();
         }catch (Exception e) {
-             e.printStackTrace();
-             connection.rollback();
-             throw new SQLException("Erro ao consultar login do usuário: " + e.getMessage());
-         }
-
+            e.printStackTrace();
+            connection.rollback();
+        }
     }
 }

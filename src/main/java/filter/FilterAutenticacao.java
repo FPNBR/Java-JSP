@@ -30,10 +30,10 @@ public class FilterAutenticacao implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException { // Intercepta as requisições e as respostas no sistema (tudo no sistema passa por esse método)
         try {
-            HttpServletRequest req = (HttpServletRequest) request;
-            HttpSession session = req.getSession();
+            HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+            HttpSession session = httpServletRequest.getSession();
             String usuarioLogado = (String) session.getAttribute("usuario");
-            String urlAutenticar = req.getServletPath(); // Url que está sendo acessada
+            String urlAutenticar = httpServletRequest.getServletPath(); // Url que está sendo acessada
 
             // Validar se está logado, se não, redireciona para a tela de login
             if (usuarioLogado == null && !urlAutenticar.equalsIgnoreCase("/principal/ServletLogin")) { // Usuário não está logado

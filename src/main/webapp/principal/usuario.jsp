@@ -39,6 +39,9 @@
                                                 <div class="card-block">
                                                     <h4 class="sub-title">Cadastro de usuário</h4>
                                                     <form class="form-material" action="<%= request.getContextPath()%>/ServletUsuarioController" method="post" id="formUsuario">
+
+                                                        <input type="hidden" name="acao" id="acao" value="">
+
                                                         <div class="form-group form-default form-static-label">
                                                             <input type="text" name="id" id="id" class="form-control" autocomplete="off" readonly="readonly" value="${modelLogin.id}">
                                                             <span class="form-bar"></span>
@@ -64,9 +67,9 @@
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">Senha:</label>
                                                         </div>
-                                                        <button class="btn btn-primary waves-effect waves-light" onclick="limparForm();">Novo</button>
-                                                        <button class="btn btn-success waves-effect waves-light">Salvar</button>
-                                                        <button class="btn btn-info waves-effect waves-light">Excluir</button>
+                                                        <button type="button" class="btn btn-primary waves-effect waves-light" onclick="limparForm();">Novo</button>
+                                                        <button type="submit" class="btn btn-success waves-effect waves-light">Salvar</button>
+                                                        <button type="button" class="btn btn-info waves-effect waves-light" onclick="deletarUsuario();">Excluir</button>
                                                     </form>
                                                     <span>${msg}</span>
                                                 </div>
@@ -92,6 +95,12 @@
         for (i = 0; i < elementos.length; i++) {
             elementos[i].value = '';
         }
+    }
+    
+    function deletarUsuario() {
+        document.getElementById("formUsuario").method = 'get';
+        document.getElementById("acao").value = 'deletarUsuario';
+        document.getElementById("formUsuario").submit();
     }
 </script>
 
