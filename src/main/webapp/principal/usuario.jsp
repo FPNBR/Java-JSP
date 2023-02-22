@@ -131,9 +131,19 @@
     function buscarUsuario() {
         var nomeUsuario = document.getElementById("nomeUsuario").value;
         if (nomeUsuario != null && nomeUsuario != '' && nomeUsuario.trim() != '') { // Validando que tem que ter valor para buscar no banco
-            alert(nomeUsuario);
-        }
+            $.ajax({
+                method: "get",
+                url: urlAction,
+                data: "nomeUsuario=" + nomeUsuario + "&acao=buscarUsuarioAjax",
+                success: function (response) {
+                    //
+                    //
+                }
 
+            }).fail(function (xhr, status, errorThrown){
+                alert("Erro ao buscar usuário por nome: " + xhr.responseText);
+            });
+        }
     }
 
     function limparForm() {
