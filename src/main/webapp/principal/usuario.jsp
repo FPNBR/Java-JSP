@@ -100,7 +100,24 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Digite o nome do usuário" aria-label="nome" id="nomeUsuario" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-info" type="button" onclick="buscarUsuario();">Buscar</button>
+                        </div>
+                    </div>
+                    <table class="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Ver</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -110,6 +127,15 @@
     </div>
 
 <script type="text/javascript">
+
+    function buscarUsuario() {
+        var nomeUsuario = document.getElementById("nomeUsuario").value;
+        if (nomeUsuario != null && nomeUsuario != '' && nomeUsuario.trim() != '') { // Validando que tem que ter valor para buscar no banco
+            alert(nomeUsuario);
+        }
+
+    }
+
     function limparForm() {
         var elementos = document.getElementById("formUsuario").elements; // Retorna os elementos html dentro do form
         for (i = 0; i < elementos.length; i++) {
