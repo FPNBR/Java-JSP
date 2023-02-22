@@ -98,9 +98,11 @@
     }
     
     function deletarUsuario() {
-        document.getElementById("formUsuario").method = 'get';
-        document.getElementById("acao").value = 'deletarUsuario';
-        document.getElementById("formUsuario").submit();
+        if (confirm('Deseja realmente excluir os dados?')) {
+            document.getElementById("formUsuario").method = 'get';
+            document.getElementById("acao").value = 'deletarUsuario';
+            document.getElementById("formUsuario").submit();
+        }
     }
 </script>
 
