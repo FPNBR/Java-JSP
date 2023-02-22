@@ -20,9 +20,18 @@ public class ServletUsuarioController extends HttpServlet {
             if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletarUsuario")) {
                 String idUsuario = request.getParameter("id");
                 daoUsuarioRepository.deletarUsuario(idUsuario);
-                request.setAttribute("msg", "Usuário excluído com sucesso!");
+                request.setAttribute("msg", "Excluído com sucesso!");
+                request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
+
             }
-            request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
+            else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletarUsuarioAjax")) {
+                    String idUsuario = request.getParameter("id");
+                    daoUsuarioRepository.deletarUsuario(idUsuario);
+                    response.getWriter().write("Excluído com sucesso!");
+            }
+            else {
+                request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
+            }
 
         }catch (Exception e) {
             e.printStackTrace();
@@ -51,7 +60,7 @@ public class ServletUsuarioController extends HttpServlet {
                 msg = "Já existe um usuário com o mesmo login!";
             }else {
                 if (modelLogin.idExiste()) {
-                    msg = "Usuário cadastrado com sucesso!";
+                    msg = "Cadastrado com sucesso!";
                 }else {
                     msg = "Atualizado com sucesso!";
                 }

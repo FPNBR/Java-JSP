@@ -69,9 +69,9 @@
                                                         </div>
                                                         <button type="button" class="btn btn-primary waves-effect waves-light" onclick="limparForm();">Novo</button>
                                                         <button type="submit" class="btn btn-success waves-effect waves-light">Salvar</button>
-                                                        <button type="button" class="btn btn-info waves-effect waves-light" onclick="deletarUsuario();">Excluir</button>
+                                                        <button type="button" class="btn btn-info waves-effect waves-light" onclick="deletarUsuarioAjax();">Excluir</button>
                                                     </form>
-                                                    <span>${msg}</span>
+                                                    <span id="msg">${msg}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -96,11 +96,31 @@
             elementos[i].value = '';
         }
     }
-    
+
+    function deletarUsuarioAjax() {
+        if (confirm("Deseja realmente excluir os dados?")) {
+            var urlAction = document.getElementById("formUsuario").action;
+            var idUsuario = document.getElementById("id").value;
+
+            $.ajax({
+                method: "get",
+                url: urlAction,
+                data: "id=" + idUsuario + "&acao=deletarUsuarioAjax",
+                success: function (response) {
+                    limparForm();
+                    document.getElementById("msg").textContent = response;
+                }
+
+            }).fail(function (xhr, status, errorThrown){
+               alert("Erro ao deletar usuário por id: " + xhr.responseText);
+            });
+        }
+    }
+
     function deletarUsuario() {
-        if (confirm('Deseja realmente excluir os dados?')) {
-            document.getElementById("formUsuario").method = 'get';
-            document.getElementById("acao").value = 'deletarUsuario';
+        if (confirm("Deseja realmente excluir os dados?")) {
+            document.getElementById("formUsuario").method = "get";
+            document.getElementById("acao").value = "deletarUsuario";
             document.getElementById("formUsuario").submit();
         }
     }
