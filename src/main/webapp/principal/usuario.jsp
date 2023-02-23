@@ -103,7 +103,7 @@
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Digite o nome do usuário" aria-label="nome" id="nomeUsuario" aria-describedby="basic-addon2">
                         <div class="input-group-append">
-                            <button class="btn btn-info" type="button" onclick="buscarUsuario();">Buscar</button>
+                            <button class="btn btn-info" type="button" onclick="buscarUsuarioAjax();">Buscar</button>
                         </div>
                     </div>
                     <table class="table">
@@ -128,16 +128,16 @@
 
 <script type="text/javascript">
 
-    function buscarUsuario() {
+    function buscarUsuarioAjax() {
         var nomeUsuario = document.getElementById("nomeUsuario").value;
+        var urlAction = document.getElementById("formUsuario").action;
         if (nomeUsuario != null && nomeUsuario != '' && nomeUsuario.trim() != '') { // Validando que tem que ter valor para buscar no banco
             $.ajax({
                 method: "get",
                 url: urlAction,
                 data: "nomeUsuario=" + nomeUsuario + "&acao=buscarUsuarioAjax",
                 success: function (response) {
-                    //
-                    //
+                    alert(response);
                 }
 
             }).fail(function (xhr, status, errorThrown){

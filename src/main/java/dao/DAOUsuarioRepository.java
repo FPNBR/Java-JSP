@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DAOUsuarioRepository {
     private Connection connection;
@@ -48,10 +50,35 @@ public class DAOUsuarioRepository {
         }
     }
 
+    public List<ModelLogin> consultarUsuarioList(String nome) throws SQLException {
+        try {
+            List<ModelLogin> resultado = new ArrayList<>();
+            String sql = "SELECT * FROM model_login WHERE UPPER(nome) LIKE UPPER(?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, "%" + nome + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) { // Percorrer as linhas de resultado do SQL
+                ModelLogin modelLogin = new ModelLogin();
+                modelLogin.setId(resultSet.getLong("id"));
+                modelLogin.setLogin(resultSet.getString("login"));
+                modelLogin.setNome(resultSet.getString("nome"));
+                modelLogin.setEmail(resultSet.getString("email"));
+                resultado.add(modelLogin);
+            }
+            return resultado;
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            connection.rollback();
+            throw new SQLException("Erro ao consultar usuário: " + e.getMessage());
+        }
+    }
+
     public ModelLogin consultarUsuario(String login) throws SQLException {
         try {
             ModelLogin modelLogin = new ModelLogin();
-            String sql = "select * from model_login where upper(login) = upper(?)";
+            String sql = "SELECT * FROM model_login WHERE UPPER(login) = UPPER(?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, login);
 
@@ -75,7 +102,7 @@ public class DAOUsuarioRepository {
 
     public boolean validarLogin(String login) throws SQLException {
         try {
-            String sql = "select count(1) > 0 as existe from model_login where upper(login) = upper('" + login + "');";
+            String sql = "SELECT count(1) > 0 AS existe FROM model_login WHERE UPPER(login) = UPPER('" + login + "');";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
