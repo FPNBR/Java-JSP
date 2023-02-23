@@ -106,7 +106,8 @@
                             <button class="btn btn-info" type="button" onclick="buscarUsuarioAjax();">Buscar</button>
                         </div>
                     </div>
-                    <table class="table">
+                    <div style="height: 300px; overflow: scroll;">
+                    <table class="table" id="tabelaResultadoUsuario">
                         <thead class="thead-dark">
                         <tr>
                             <th scope="col">ID</th>
@@ -115,10 +116,11 @@
                         </tr>
                         </thead>
                         <tbody>
-
                         </tbody>
                     </table>
+                    </div>
                 </div>
+                <span id="tabelaQuantidadeUsuario"></span>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                 </div>
@@ -131,13 +133,24 @@
     function buscarUsuarioAjax() {
         var nomeUsuario = document.getElementById("nomeUsuario").value;
         var urlAction = document.getElementById("formUsuario").action;
+
         if (nomeUsuario != null && nomeUsuario != '' && nomeUsuario.trim() != '') { // Validando que tem que ter valor para buscar no banco
             $.ajax({
                 method: "get",
                 url: urlAction,
                 data: "nomeUsuario=" + nomeUsuario + "&acao=buscarUsuarioAjax",
                 success: function (response) {
-                    alert(response);
+                    var json = JSON.parse(response);
+
+                    $("#tabelaResultadoUsuario > tbody > tr").remove();
+
+                    for (var i = 0; i < json.length; i++) {
+                        $("#tabelaResultadoUsuario > tbody").append("<tr> " +
+                            "<td>" + json[i].id + " </td>" +
+                            "<td>" + json[i].nome + " </td>" +
+                            "<td><button type='button' class='btn btn-info'>Ver usuário</button></td> </tr>");
+                    }
+                    document.getElementById("tabelaQuantidadeUsuario").textContent = "Usuários encontrados: " + json.length;
                 }
 
             }).fail(function (xhr, status, errorThrown){
