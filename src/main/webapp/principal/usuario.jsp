@@ -112,7 +112,7 @@
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Nome</th>
-                            <th scope="col">Ver</th>
+                            <th scope="col">Ver/Editar</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -130,70 +130,75 @@
 
 <script type="text/javascript">
 
+    function verEditarUsuario(id) {
+        var urlAction = document.getElementById('formUsuario').action;
+        window.location.href = urlAction + '?acao=verEditarUsuario&id='+id;
+    }
+
     function buscarUsuarioAjax() {
-        var nomeUsuario = document.getElementById("nomeUsuario").value;
-        var urlAction = document.getElementById("formUsuario").action;
+        var nomeUsuario = document.getElementById('nomeUsuario').value;
+        var urlAction = document.getElementById('formUsuario').action;
 
         if (nomeUsuario != null && nomeUsuario != '' && nomeUsuario.trim() != '') { // Validando que tem que ter valor para buscar no banco
             $.ajax({
-                method: "get",
+                method: 'get',
                 url: urlAction,
-                data: "nomeUsuario=" + nomeUsuario + "&acao=buscarUsuarioAjax",
+                data: 'nomeUsuario=' + nomeUsuario + '&acao=buscarUsuarioAjax',
                 success: function (response) {
                     var json = JSON.parse(response);
 
-                    $("#tabelaResultadoUsuario > tbody > tr").remove();
+                    $('#tabelaResultadoUsuario > tbody > tr').remove();
 
                     for (var i = 0; i < json.length; i++) {
-                        $("#tabelaResultadoUsuario > tbody").append("<tr> " +
-                            "<td>" + json[i].id + " </td>" +
-                            "<td>" + json[i].nome + " </td>" +
-                            "<td><button type='button' class='btn btn-info'>Ver usuário</button></td> </tr>");
+                        $('#tabelaResultadoUsuario > tbody').append('<tr> ' +
+                            '<td>' + json[i].id + ' </td>' +
+                            '<td>' + json[i].nome + ' </td>' +
+                            '<td><button onclick="verEditarUsuario('+json[i].id+')" type="button" class="btn btn-info">Editar usuário</button></td> </tr>');
                     }
-                    document.getElementById("tabelaQuantidadeUsuario").textContent = "Usuários encontrados: " + json.length;
+                    document.getElementById('tabelaQuantidadeUsuario').textContent = 'Usuários encontrados: ' + json.length;
                 }
 
             }).fail(function (xhr, status, errorThrown){
-                alert("Erro ao buscar usuário por nome: " + xhr.responseText);
+                alert('Erro ao buscar usuário por nome: ' + xhr.responseText);
             });
         }
     }
 
     function limparForm() {
-        var elementos = document.getElementById("formUsuario").elements; // Retorna os elementos html dentro do form
+        var elementos = document.getElementById('formUsuario').elements; // Retorna os elementos html dentro do form
         for (i = 0; i < elementos.length; i++) {
             elementos[i].value = '';
         }
     }
 
     function deletarUsuarioAjax() {
-        if (confirm("Deseja realmente excluir os dados?")) {
-            var urlAction = document.getElementById("formUsuario").action;
-            var idUsuario = document.getElementById("id").value;
+        if (confirm('Deseja realmente excluir os dados?')) {
+            var urlAction = document.getElementById('formUsuario').action;
+            var idUsuario = document.getElementById('id').value;
 
             $.ajax({
-                method: "get",
+                method: 'get',
                 url: urlAction,
-                data: "id=" + idUsuario + "&acao=deletarUsuarioAjax",
+                data: 'id=' + idUsuario + '&acao=deletarUsuarioAjax',
                 success: function (response) {
                     limparForm();
-                    document.getElementById("msg").textContent = response;
+                    document.getElementById('msg').textContent = response;
                 }
 
             }).fail(function (xhr, status, errorThrown){
-               alert("Erro ao deletar usuário por id: " + xhr.responseText);
+               alert('Erro ao deletar usuário por id: ' + xhr.responseText);
             });
         }
     }
 
     function deletarUsuario() {
-        if (confirm("Deseja realmente excluir os dados?")) {
-            document.getElementById("formUsuario").method = "get";
-            document.getElementById("acao").value = "deletarUsuario";
-            document.getElementById("formUsuario").submit();
+        if (confirm('Deseja realmente excluir os dados?')) {
+            document.getElementById('formUsuario').method = 'get';
+            document.getElementById('acao').value = 'deletarUsuario';
+            document.getElementById('formUsuario').submit();
         }
     }
-</script>
 
+</script>
 </body>
 </html>

@@ -89,6 +89,30 @@ public class DAOUsuarioRepository {
                 modelLogin.setLogin(resultSet.getString("login"));
                 modelLogin.setNome(resultSet.getString("nome"));
                 modelLogin.setEmail(resultSet.getString("email"));
+            }
+            return modelLogin;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            connection.rollback();
+            throw new SQLException("Erro ao consultar usuário: " + e.getMessage());
+        }
+    }
+
+    public ModelLogin consultarUsuarioPorId(String id) throws SQLException {
+        try {
+            ModelLogin modelLogin = new ModelLogin();
+            String sql = "SELECT * FROM model_login WHERE id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1, Long.parseLong(id));
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                modelLogin.setId(resultSet.getLong("id"));
+                modelLogin.setLogin(resultSet.getString("login"));
+                modelLogin.setNome(resultSet.getString("nome"));
+                modelLogin.setEmail(resultSet.getString("email"));
                 modelLogin.setSenha(resultSet.getString("senha"));
             }
             return modelLogin;
