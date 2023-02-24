@@ -52,8 +52,8 @@ public class DAOUsuarioRepository {
 
     public List<ModelLogin> consultarUsuarioView() throws SQLException {
         try {
-            List<ModelLogin> resultado = new ArrayList<>();
-            String sql = "SELECT * FROM model_login";
+            List<ModelLogin> modelLoginList = new ArrayList<>();
+            String sql = "SELECT * FROM model_login WHERE admin_user IS FALSE";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -63,9 +63,9 @@ public class DAOUsuarioRepository {
                 modelLogin.setLogin(resultSet.getString("login"));
                 modelLogin.setNome(resultSet.getString("nome"));
                 modelLogin.setEmail(resultSet.getString("email"));
-                resultado.add(modelLogin);
+                modelLoginList.add(modelLogin);
             }
-            return resultado;
+            return modelLoginList;
 
         }catch (Exception e) {
             e.printStackTrace();
@@ -76,8 +76,8 @@ public class DAOUsuarioRepository {
 
     public List<ModelLogin> consultarUsuarioList(String nome) throws SQLException {
         try {
-            List<ModelLogin> resultado = new ArrayList<>();
-            String sql = "SELECT * FROM model_login WHERE UPPER(nome) LIKE UPPER(?)";
+            List<ModelLogin> modelLoginList = new ArrayList<>();
+            String sql = "SELECT * FROM model_login WHERE UPPER(nome) LIKE UPPER(?) and admin_user IS FALSE";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, "%" + nome + "%");
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -88,9 +88,9 @@ public class DAOUsuarioRepository {
                 modelLogin.setLogin(resultSet.getString("login"));
                 modelLogin.setNome(resultSet.getString("nome"));
                 modelLogin.setEmail(resultSet.getString("email"));
-                resultado.add(modelLogin);
+                modelLoginList.add(modelLogin);
             }
-            return resultado;
+            return modelLoginList;
 
         }catch (Exception e) {
             e.printStackTrace();
@@ -102,7 +102,7 @@ public class DAOUsuarioRepository {
     public ModelLogin consultarUsuario(String login) throws SQLException {
         try {
             ModelLogin modelLogin = new ModelLogin();
-            String sql = "SELECT * FROM model_login WHERE UPPER(login) = UPPER(?)";
+            String sql = "SELECT * FROM model_login WHERE UPPER(login) = UPPER(?) and admin_user IS FALSE";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, login);
 
@@ -126,7 +126,7 @@ public class DAOUsuarioRepository {
     public ModelLogin consultarUsuarioPorId(String id) throws SQLException {
         try {
             ModelLogin modelLogin = new ModelLogin();
-            String sql = "SELECT * FROM model_login WHERE id = ?";
+            String sql = "SELECT * FROM model_login WHERE id = ? and admin_user IS FALSE";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setLong(1, Long.parseLong(id));
 
@@ -161,12 +161,11 @@ public class DAOUsuarioRepository {
             connection.rollback();
             throw new SQLException("Erro ao consultar login do usuário: " + e.getMessage());
         }
-
     }
 
     public void deletarUsuario(String idUsuario) throws SQLException {
         try {
-            String sql = "DELETE FROM model_login WHERE id = ?";
+            String sql = "DELETE FROM model_login WHERE id = ? and admin_user IS FALSE";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setLong(1, Long.parseLong(idUsuario));
             preparedStatement.executeUpdate();

@@ -22,11 +22,15 @@ public class ServletUsuarioController extends HttpServlet {
             if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletarUsuario")) {
                 String idUsuario = request.getParameter("id");
                 daoUsuarioRepository.deletarUsuario(idUsuario);
+
+                // Mostra os usuários novamente na tabela na página cadastrar/usuários ao fazer outras requisições
                 List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView();
                 request.setAttribute("modelLoginView", modelLoginView);
+
                 request.setAttribute("msg", "Excluído com sucesso!");
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
             }
+            
             else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletarUsuarioAjax")) {
                     String idUsuario = request.getParameter("id");
                     daoUsuarioRepository.deletarUsuario(idUsuario);
@@ -44,14 +48,17 @@ public class ServletUsuarioController extends HttpServlet {
             else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("verEditarUsuario")) {
                 String idUsuario = request.getParameter("id");
                 ModelLogin modelLogin = daoUsuarioRepository.consultarUsuarioPorId(idUsuario);
+
+                // Mostra os usuários novamente na tabela na página cadastrar/usuários ao fazer outras requisições
                 List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView();
                 request.setAttribute("modelLoginView", modelLoginView);
+
                 request.setAttribute("msg", "Dados do usuário resgatados!");
                 request.setAttribute("modelLogin", modelLogin);
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
             }
 
-            else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("listarUsuario")) {
+            else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("listarUsuario")) {// Mostra os usuários novamente na tabela na página cadastrar/usuários ao fazer outras requisições
                 List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView();
                 request.setAttribute("msg", "Usuários carregados!");
                 request.setAttribute("modelLoginView", modelLoginView);
@@ -59,6 +66,7 @@ public class ServletUsuarioController extends HttpServlet {
             }
 
             else {
+                // Mostra os usuários novamente na tabela na página cadastrar/usuários ao fazer outras requisições
                 List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView();
                 request.setAttribute("modelLoginView", modelLoginView);
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
