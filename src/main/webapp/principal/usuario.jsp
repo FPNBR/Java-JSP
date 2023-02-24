@@ -60,6 +60,16 @@
                                                             <label class="float-label">Email: (exemplo@gmail.com)</label>
                                                         </div>
                                                         <div class="form-group form-default form-static-label">
+                                                        <select class="form-control" aria-label="Default select example" name="perfil">
+                                                            <option disabled>[Selecione o perfil do usuário]</option>
+                                                            <option value="admin">Admin</option>
+                                                            <option value="secretario">Secretário</option>
+                                                            <option value="auxiliar">Auxiliar</option>
+                                                        </select>
+                                                            <span class="form-bar"></span>
+                                                            <label class="float-label">Perfil:</label>
+                                                        </div>
+                                                        <div class="form-group form-default form-static-label">
                                                             <input type="text" name="login" id="login" class="form-control" required="required" autocomplete="off" value="${modelLogin.login}">
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">Login:</label>

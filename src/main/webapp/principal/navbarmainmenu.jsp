@@ -2,7 +2,7 @@
 
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 
-<c:set scope="session" var="usuario_admin" value='<%=request.getSession().getAttribute("usuario_admin")%>'></c:set>
+<c:set scope="session" var="perfil" value='<%=request.getSession().getAttribute("perfil")%>'></c:set>
 
 <nav class="pcoded-navbar">
   <div class="sidebar_toggle"><a href="#"><i class="icon-close icons"></i></a></div>
@@ -49,7 +49,7 @@
           <span class="pcoded-mcaret"></span>
         </a>
         <ul class="pcoded-submenu">
-          <c:if test="${usuario_admin}">
+          <c:if test="${perfil == 'admin'}">
           <li class=" ">
             <a href="<%=request.getContextPath()%>/ServletUsuarioController?acao=listarUsuario" class="waves-effect waves-dark">
               <span class="pcoded-micon"><i class="ti-angle-right"></i></span>

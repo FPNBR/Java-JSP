@@ -21,23 +21,25 @@ public class DAOUsuarioRepository {
 
         try {
             if (usuario.idExiste()) { // Grava um novo usuário se o boolean for verdadeiro
-                String sql = "INSERT INTO model_login (login, nome, email, senha, usuario_id) VALUES (?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO model_login (login, nome, email, senha, usuario_id, perfil) VALUES (?, ?, ?, ?, ?, ?)";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(1, usuario.getLogin());
                 preparedStatement.setString(2, usuario.getNome());
                 preparedStatement.setString(3, usuario.getEmail());
                 preparedStatement.setString(4, usuario.getSenha());
                 preparedStatement.setLong(5, usuarioLogado);
+                preparedStatement.setString(6, usuario.getPerfil());
                 preparedStatement.execute();
                 connection.commit();
 
             } else { // Atualiza o usuário se o boolean for false
-                String sql = "UPDATE model_login SET login=?, nome=?, email=?, senha=? WHERE id = " + usuario.getId() + ";";
+                String sql = "UPDATE model_login SET login=?, nome=?, email=?, senha=?, perfil=? WHERE id = " + usuario.getId() + ";";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(1, usuario.getLogin());
                 preparedStatement.setString(2, usuario.getNome());
                 preparedStatement.setString(3, usuario.getEmail());
                 preparedStatement.setString(4, usuario.getSenha());
+                preparedStatement.setString(5, usuario.getPerfil());
                 preparedStatement.executeUpdate();
                 connection.commit();
             }
@@ -113,6 +115,7 @@ public class DAOUsuarioRepository {
                 modelLogin.setNome(resultSet.getString("nome"));
                 modelLogin.setEmail(resultSet.getString("email"));
                 modelLogin.setUsuario_admin(resultSet.getBoolean("usuario_admin"));
+                modelLogin.setPerfil((resultSet.getString("perfil")));
             }
             return modelLogin;
 
