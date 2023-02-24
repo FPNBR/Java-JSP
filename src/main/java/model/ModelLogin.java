@@ -9,6 +9,8 @@ public class ModelLogin implements Serializable {
     private String email;
     private String login;
     private String senha;
+    private boolean usuario_admin;
+
 
     public boolean idExiste() { // Método para verificar se o usuário já possui um id ou não
         if (this.id == null) {
@@ -59,4 +61,11 @@ public class ModelLogin implements Serializable {
         this.senha = senha;
     }
 
+    public boolean getUsuario_admin() {
+        return usuario_admin;
+    }
+
+    public void setUsuario_admin(boolean usuario_admin) {
+        this.usuario_admin = usuario_admin;
+    }
 }

@@ -53,7 +53,7 @@ public class DAOUsuarioRepository {
     public List<ModelLogin> consultarUsuarioView(Long usuarioLogado) throws SQLException {
         try {
             List<ModelLogin> modelLoginList = new ArrayList<>();
-            String sql = "SELECT * FROM model_login WHERE admin_user IS FALSE and usuario_id =" + usuarioLogado;
+            String sql = "SELECT * FROM model_login WHERE usuario_admin IS FALSE and usuario_id =" + usuarioLogado;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -77,7 +77,7 @@ public class DAOUsuarioRepository {
     public List<ModelLogin> consultarUsuarioList(String nome, Long usuarioLogado) throws SQLException {
         try {
             List<ModelLogin> modelLoginList = new ArrayList<>();
-            String sql = "SELECT * FROM model_login WHERE UPPER(nome) LIKE UPPER(?) and admin_user IS FALSE and usuario_id = ?";
+            String sql = "SELECT * FROM model_login WHERE UPPER(nome) LIKE UPPER(?) and usuario_admin IS FALSE and usuario_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, "%" + nome + "%");
             preparedStatement.setLong(2, usuarioLogado);
@@ -112,6 +112,7 @@ public class DAOUsuarioRepository {
                 modelLogin.setLogin(resultSet.getString("login"));
                 modelLogin.setNome(resultSet.getString("nome"));
                 modelLogin.setEmail(resultSet.getString("email"));
+                modelLogin.setUsuario_admin(resultSet.getBoolean("usuario_admin"));
             }
             return modelLogin;
 
@@ -125,7 +126,7 @@ public class DAOUsuarioRepository {
     public ModelLogin consultarUsuario(String login) throws SQLException {
         try {
             ModelLogin modelLogin = new ModelLogin();
-            String sql = "SELECT * FROM model_login WHERE UPPER(login) = UPPER('"+login+"') and admin_user IS FALSE";
+            String sql = "SELECT * FROM model_login WHERE UPPER(login) = UPPER('"+login+"') and usuario_admin IS FALSE";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -147,7 +148,7 @@ public class DAOUsuarioRepository {
     public ModelLogin consultarUsuario(String login, Long usuarioLogado) throws SQLException {
         try {
             ModelLogin modelLogin = new ModelLogin();
-            String sql = "SELECT * FROM model_login WHERE UPPER(login) = UPPER('"+login+"') and admin_user IS FALSE and usuario_id =" + usuarioLogado;
+            String sql = "SELECT * FROM model_login WHERE UPPER(login) = UPPER('"+login+"') and usuario_admin IS FALSE and usuario_id =" + usuarioLogado;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -169,7 +170,7 @@ public class DAOUsuarioRepository {
     public ModelLogin consultarUsuarioPorId(String id, Long usuarioLogado) throws SQLException {
         try {
             ModelLogin modelLogin = new ModelLogin();
-            String sql = "SELECT * FROM model_login WHERE id = ? and admin_user IS FALSE and usuario_id = ?";
+            String sql = "SELECT * FROM model_login WHERE id = ? and usuario_admin IS FALSE and usuario_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setLong(1, Long.parseLong(id));
             preparedStatement.setLong(2, usuarioLogado);
@@ -210,7 +211,7 @@ public class DAOUsuarioRepository {
 
     public void deletarUsuario(String idUsuario) throws SQLException {
         try {
-            String sql = "DELETE FROM model_login WHERE id = ? and admin_user IS FALSE";
+            String sql = "DELETE FROM model_login WHERE id = ? and usuario_admin IS FALSE";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setLong(1, Long.parseLong(idUsuario));
             preparedStatement.executeUpdate();

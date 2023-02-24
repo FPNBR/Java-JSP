@@ -1,6 +1,7 @@
 package servlets;
 
 import dao.DAOLoginRepository;
+import dao.DAOUsuarioRepository;
 import model.ModelLogin;
 
 import javax.servlet.*;
@@ -10,8 +11,9 @@ import java.io.IOException;
 
 @WebServlet (urlPatterns = {"/principal/ServletLogin" , "/ServletLogin"}) // Mapeamento da URL que vem da tela
 public class ServletLogin extends HttpServlet {
-
     private DAOLoginRepository daoLoginRepository = new DAOLoginRepository();
+    private DAOUsuarioRepository daoUsuarioRepository = new DAOUsuarioRepository();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { // Recebe os dados pela url em parâmetros
         String acao = request.getParameter("acao");
@@ -38,8 +40,10 @@ public class ServletLogin extends HttpServlet {
                 modelLogin.setLogin(login);
                 modelLogin.setSenha(login);
 
-                if (daoLoginRepository.validarAutenticacao(modelLogin)) { // Simulando login
+                if (daoLoginRepository.validarAutenticacao(modelLogin)) {
+                    modelLogin = daoUsuarioRepository.consultarUsuarioLogado(login);
                     request.getSession().setAttribute("usuario", modelLogin.getLogin());
+                    request.getSession().setAttribute("usuario_admin", modelLogin.getUsuario_admin());
 
                     if (url == null || url.equals("null")) {
                         url = "principal/principal.jsp";
