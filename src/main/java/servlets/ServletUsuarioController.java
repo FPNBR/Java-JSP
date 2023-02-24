@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet(urlPatterns = {"/ServletUsuarioController"})
-public class ServletUsuarioController extends HttpServlet {
+public class ServletUsuarioController extends ServletGenericUtil {
     private DAOUsuarioRepository daoUsuarioRepository = new DAOUsuarioRepository();
 
     @Override
@@ -24,7 +24,7 @@ public class ServletUsuarioController extends HttpServlet {
                 daoUsuarioRepository.deletarUsuario(idUsuario);
 
                 // Mostra os usuários novamente na tabela na página cadastrar/usuários ao fazer outras requisições
-                List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView();
+                List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView(super.getUsuarioLogado(request));
                 request.setAttribute("modelLoginView", modelLoginView);
 
                 request.setAttribute("msg", "Excluído com sucesso!");
@@ -39,7 +39,7 @@ public class ServletUsuarioController extends HttpServlet {
 
             else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarUsuarioAjax")) {
                 String nomeUsuario = request.getParameter("nomeUsuario");
-                List<ModelLogin> dadosUsuarios = daoUsuarioRepository.consultarUsuarioList(nomeUsuario);
+                List<ModelLogin> dadosUsuarios = daoUsuarioRepository.consultarUsuarioList(nomeUsuario, super.getUsuarioLogado(request));
                 ObjectMapper objectMapper = new ObjectMapper();
                 String dadosUsuariosJSON = objectMapper.writeValueAsString(dadosUsuarios);
                 response.getWriter().write(dadosUsuariosJSON);
@@ -47,10 +47,10 @@ public class ServletUsuarioController extends HttpServlet {
 
             else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("verEditarUsuario")) {
                 String idUsuario = request.getParameter("id");
-                ModelLogin modelLogin = daoUsuarioRepository.consultarUsuarioPorId(idUsuario);
+                ModelLogin modelLogin = daoUsuarioRepository.consultarUsuarioPorId(idUsuario, super.getUsuarioLogado(request));
 
                 // Mostra os usuários novamente na tabela na página cadastrar/usuários ao fazer outras requisições
-                List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView();
+                List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView(super.getUsuarioLogado(request));
                 request.setAttribute("modelLoginView", modelLoginView);
 
                 request.setAttribute("msg", "Dados do usuário resgatados!");
@@ -59,7 +59,7 @@ public class ServletUsuarioController extends HttpServlet {
             }
 
             else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("listarUsuario")) {// Mostra os usuários novamente na tabela na página cadastrar/usuários ao fazer outras requisições
-                List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView();
+                List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView(super.getUsuarioLogado(request));
                 request.setAttribute("msg", "Usuários carregados!");
                 request.setAttribute("modelLoginView", modelLoginView);
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
@@ -67,7 +67,7 @@ public class ServletUsuarioController extends HttpServlet {
 
             else {
                 // Mostra os usuários novamente na tabela na página cadastrar/usuários ao fazer outras requisições
-                List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView();
+                List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView(super.getUsuarioLogado(request));
                 request.setAttribute("modelLoginView", modelLoginView);
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
             }
@@ -103,10 +103,10 @@ public class ServletUsuarioController extends HttpServlet {
                 }else {
                     msg = "Atualizado com sucesso!";
                 }
-                modelLogin = daoUsuarioRepository.salvarUsuario(modelLogin);
+                modelLogin = daoUsuarioRepository.salvarUsuario(modelLogin, super.getUsuarioLogado(request));
             }
 
-            List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView();
+            List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView(super.getUsuarioLogado(request));
             request.setAttribute("msg", "Usuários carregados!");
             request.setAttribute("msg", msg);
             request.setAttribute("modelLogin", modelLogin);
