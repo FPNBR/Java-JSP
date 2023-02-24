@@ -50,6 +50,30 @@ public class DAOUsuarioRepository {
         }
     }
 
+    public List<ModelLogin> consultarUsuarioView() throws SQLException {
+        try {
+            List<ModelLogin> resultado = new ArrayList<>();
+            String sql = "SELECT * FROM model_login";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) { // Percorrer as linhas de resultado do SQL
+                ModelLogin modelLogin = new ModelLogin();
+                modelLogin.setId(resultSet.getLong("id"));
+                modelLogin.setLogin(resultSet.getString("login"));
+                modelLogin.setNome(resultSet.getString("nome"));
+                modelLogin.setEmail(resultSet.getString("email"));
+                resultado.add(modelLogin);
+            }
+            return resultado;
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            connection.rollback();
+            throw new SQLException("Erro ao consultar usuário: " + e.getMessage());
+        }
+    }
+
     public List<ModelLogin> consultarUsuarioList(String nome) throws SQLException {
         try {
             List<ModelLogin> resultado = new ArrayList<>();

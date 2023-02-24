@@ -40,7 +40,7 @@
                                             <div class="card">
                                                 <div class="card-block">
                                                     <h4 class="sub-title">Cadastro de usuário</h4>
-                                                    <form class="form-material" action="<%= request.getContextPath()%>/ServletUsuarioController" method="post" id="formUsuario">
+                                                    <form class="form-material" action="<%=request.getContextPath()%>/ServletUsuarioController" method="post" id="formUsuario">
 
                                                         <input type="hidden" name="acao" id="acao" value="">
 
@@ -72,13 +72,33 @@
                                                         <button type="button" class="btn btn-primary waves-effect waves-light" onclick="limparForm();">Novo</button>
                                                         <button type="submit" class="btn btn-success waves-effect waves-light">Salvar</button>
                                                         <button type="button" class="btn btn-danger waves-effect waves-light" onclick="deletarUsuarioAjax();">Excluir</button>
-                                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalUsuario">Pesquisar usuário</button>
+                                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalUsuario">Pesquisar Usuário</button>
                                                     </form>
-                                                    <span id="msg">${msg}</span>
                                                 </div>
                                             </div>
                                         </div>
                                 </div>
+                                    <span id="msg">${msg}</span>
+                                    <div style="height: 300px; overflow: scroll;">
+                                        <table class="table" id="tabelaResultadoUsuarioView">
+                                            <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Nome</th>
+                                                <th scope="col">Ver/Editar</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <c:forEach items="${modelLoginView}" var="mlv">
+                                                <tr>
+                                                    <td><c:out value="${mlv.id}"></c:out></td>
+                                                    <td><c:out value="${mlv.nome}"></c:out></td>
+                                                    <td><a class="btn btn-warning" href="<%=request.getContextPath()%>/ServletUsuarioController?acao=verEditarUsuario&id=${mlv.id}">Ver/Editar Usuário</a></td>
+                                                </tr>
+                                            </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 <!-- Page-body end -->
                             </div>
                             <div id="styleSelector"> </div>
@@ -109,17 +129,17 @@
                         </div>
                     </div>
                     <div style="height: 300px; overflow: scroll;">
-                    <table class="table" id="tabelaResultadoUsuario">
-                        <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Nome</th>
-                            <th scope="col">Ver/Editar</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+                        <table class="table" id="tabelaResultadoUsuario">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Ver/Editar</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <span id="tabelaQuantidadeUsuario"></span>
@@ -155,7 +175,7 @@
                         $('#tabelaResultadoUsuario > tbody').append('<tr> ' +
                             '<td>' + json[i].id + ' </td>' +
                             '<td>' + json[i].nome + ' </td>' +
-                            '<td><button onclick="verEditarUsuario('+json[i].id+')" type="button" class="btn btn-info">Editar usuário</button></td> </tr>');
+                            '<td><button onclick="verEditarUsuario('+json[i].id+')" type="button" class="btn btn-warning">Editar usuário</button></td> </tr>');
                     }
                     document.getElementById('tabelaQuantidadeUsuario').textContent = 'Usuários encontrados: ' + json.length;
                 }

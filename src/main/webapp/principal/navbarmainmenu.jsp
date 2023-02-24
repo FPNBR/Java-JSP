@@ -15,7 +15,7 @@
           <li class="more-details">
             <a href="user-profile.html"><i class="ti-user"></i>View Profile</a>
             <a href="#!"><i class="ti-settings"></i>Settings</a>
-            <a href="${pageContext.request.contextPath}/ServletLogin?acao=logout"><i class="ti-layout-sidebar-left"></i>Logout</a>
+            <a href="<%=request.getContextPath()%>/ServletLogin?acao=logout"><i class="ti-layout-sidebar-left"></i>Logout</a>
           </li>
         </ul>
       </div>
@@ -32,7 +32,7 @@
     <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">Layout</div>
     <ul class="pcoded-item pcoded-left-item">
       <li class="active">
-        <a href="${pageContext.request.contextPath}/principal/principal.jsp" class="waves-effect waves-dark">
+        <a href="<%=request.getContextPath()%>/principal/principal.jsp" class="waves-effect waves-dark">
           <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
           <span class="pcoded-mtext" data-i18n="nav.dash.main">Resumo</span>
           <span class="pcoded-mcaret"></span>
@@ -46,7 +46,7 @@
         </a>
         <ul class="pcoded-submenu">
           <li class=" ">
-            <a href="${pageContext.request.contextPath}/principal/usuario.jsp" class="waves-effect waves-dark">
+            <a href="<%=request.getContextPath()%>/ServletUsuarioController?acao=listarUsuario" class="waves-effect waves-dark">
               <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
               <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Usuário</span>
               <span class="pcoded-mcaret"></span>
