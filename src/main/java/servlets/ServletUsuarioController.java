@@ -60,8 +60,8 @@ public class ServletUsuarioController extends ServletGenericUtil {
 
             else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("listarUsuario")) {// Mostra os usuários novamente na tabela na página cadastrar/usuários ao fazer outras requisições
                 List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView(super.getUsuarioLogado(request));
-                request.setAttribute("msg", "Usuários carregados!");
                 request.setAttribute("modelLoginView", modelLoginView);
+                request.setAttribute("msg", "Usuários carregados!");
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
             }
 
@@ -75,6 +75,8 @@ public class ServletUsuarioController extends ServletGenericUtil {
         }catch (Exception e) {
             e.printStackTrace();
             RequestDispatcher redirecionar = request.getRequestDispatcher("erro.jsp");
+            request.setAttribute("msg", e.getMessage());
+            redirecionar.forward(request, response);
         }
     }
 
@@ -108,8 +110,10 @@ public class ServletUsuarioController extends ServletGenericUtil {
                 modelLogin = daoUsuarioRepository.salvarUsuario(modelLogin, super.getUsuarioLogado(request));
             }
 
+            // Mostra os usuários novamente na tabela na página cadastrar/usuários ao fazer outras requisições
             List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView(super.getUsuarioLogado(request));
-            request.setAttribute("msg", "Usuários carregados!");
+            request.setAttribute("modelLoginView", modelLoginView);
+
             request.setAttribute("msg", msg);
             request.setAttribute("modelLogin", modelLogin);
             request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);

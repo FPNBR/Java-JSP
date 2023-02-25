@@ -1,3 +1,4 @@
+<%@ page import="model.ModelLogin" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
@@ -62,9 +63,27 @@
                                                         <div class="form-group form-default form-static-label">
                                                         <select class="form-control" aria-label="Default select example" name="perfil">
                                                             <option disabled>[Selecione o perfil do usuário]</option>
-                                                            <option value="admin">Admin</option>
-                                                            <option value="secretario">Secretário</option>
-                                                            <option value="auxiliar">Auxiliar</option>
+                                                            <option value="admin" <%
+                                                                ModelLogin modelLogin = (ModelLogin) request.getAttribute("modelLogin");
+                                                                if (modelLogin != null && modelLogin.getPerfil().equals("admin")) {
+                                                                out.print(" ");
+                                                                    out.print("selected=\"selected\"");
+                                                                out.print(" ");
+                                                            }%>>Admin</option>
+                                                            <option value="secretario" <%
+                                                                modelLogin = (ModelLogin) request.getAttribute("modelLogin");
+                                                                if (modelLogin != null && modelLogin.getPerfil().equals("secretario")) {
+                                                                out.print(" ");
+                                                                out.print("selected=\"selected\"");
+                                                                out.print(" ");
+                                                            }%>>Secretário</option>
+                                                            <option value="auxiliar" <%
+                                                                modelLogin = (ModelLogin) request.getAttribute("modelLogin");
+                                                                if (modelLogin != null && modelLogin.getPerfil().equals("auxiliar")) {
+                                                                out.print(" ");
+                                                                out.print("selected=\"selected\"");
+                                                                out.print(" ");
+                                                            }%>>Auxiliar</option>
                                                         </select>
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">Perfil:</label>

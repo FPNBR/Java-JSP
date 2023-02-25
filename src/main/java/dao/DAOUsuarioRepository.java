@@ -65,6 +65,8 @@ public class DAOUsuarioRepository {
                 modelLogin.setLogin(resultSet.getString("login"));
                 modelLogin.setNome(resultSet.getString("nome"));
                 modelLogin.setEmail(resultSet.getString("email"));
+                modelLogin.setSenha(resultSet.getString("senha"));
+                modelLogin.setPerfil(resultSet.getString("perfil"));
                 modelLoginList.add(modelLogin);
             }
             return modelLoginList;
@@ -91,6 +93,7 @@ public class DAOUsuarioRepository {
                 modelLogin.setLogin(resultSet.getString("login"));
                 modelLogin.setNome(resultSet.getString("nome"));
                 modelLogin.setEmail(resultSet.getString("email"));
+                modelLogin.setPerfil(resultSet.getString("perfil"));
                 modelLoginList.add(modelLogin);
             }
             return modelLoginList;
@@ -138,6 +141,7 @@ public class DAOUsuarioRepository {
                 modelLogin.setLogin(resultSet.getString("login"));
                 modelLogin.setNome(resultSet.getString("nome"));
                 modelLogin.setEmail(resultSet.getString("email"));
+                modelLogin.setPerfil(resultSet.getString("perfil"));
             }
             return modelLogin;
 
@@ -160,6 +164,7 @@ public class DAOUsuarioRepository {
                 modelLogin.setLogin(resultSet.getString("login"));
                 modelLogin.setNome(resultSet.getString("nome"));
                 modelLogin.setEmail(resultSet.getString("email"));
+                modelLogin.setPerfil(resultSet.getString("perfil"));
             }
             return modelLogin;
 
@@ -186,6 +191,7 @@ public class DAOUsuarioRepository {
                 modelLogin.setNome(resultSet.getString("nome"));
                 modelLogin.setEmail(resultSet.getString("email"));
                 modelLogin.setSenha(resultSet.getString("senha"));
+                modelLogin.setPerfil(resultSet.getString("perfil"));
             }
             return modelLogin;
 
