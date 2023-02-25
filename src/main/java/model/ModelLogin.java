@@ -5,12 +5,13 @@ import java.io.Serializable;
 public class ModelLogin implements Serializable {
     private static final long serialVersionUID = 1L;
     private Long id;
+    private String login;
     private String nome;
     private String email;
-    private String login;
     private String senha;
     private boolean usuario_admin;
     private String perfil;
+    private String sexo;
 
 
     public boolean idExiste() { // Método para verificar se o usuário já possui um id ou não
@@ -30,6 +31,14 @@ public class ModelLogin implements Serializable {
         this.id = id;
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -44,14 +53,6 @@ public class ModelLogin implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
     }
 
     public String getSenha() {
@@ -76,5 +77,13 @@ public class ModelLogin implements Serializable {
 
     public void setPerfil(String perfil) {
         this.perfil = perfil;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
     }
 }

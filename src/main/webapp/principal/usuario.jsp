@@ -98,6 +98,14 @@
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">Senha:</label>
                                                         </div>
+                                                        <div class="form-group form-default form-static-label">
+                                                            <label for="sexo">Sexo:</label>
+                                                            <span class="form-bar"></span>
+                                                            <select class="form-control" id="sexo" name="sexo">
+                                                                <option value="masculino" <% if(modelLogin != null && modelLogin.getSexo().equals("masculino")) { out.print("selected"); } %>>Masculino</option>
+                                                                <option value="feminino" <% if(modelLogin != null && modelLogin.getSexo().equals("feminino")) { out.print("selected"); } %>>Feminino</option>
+                                                            </select>
+                                                        </div>
                                                         <button type="button" class="btn btn-primary waves-effect waves-light" onclick="limparForm();">Novo</button>
                                                         <button type="submit" class="btn btn-success waves-effect waves-light">Salvar</button>
                                                         <button type="button" class="btn btn-danger waves-effect waves-light" onclick="deletarUsuarioAjax();">Excluir</button>
