@@ -3,6 +3,9 @@ package servlets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.DAOUsuarioRepository;
 import model.ModelLogin;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.IOUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -10,12 +13,17 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
+
+@MultipartConfig
 @WebServlet(urlPatterns = {"/ServletUsuarioController"})
 public class ServletUsuarioController extends ServletGenericUtil {
     private DAOUsuarioRepository daoUsuarioRepository = new DAOUsuarioRepository();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8"); // Define o tipo de conteúdo e a codificação de caracteres
+        request.setCharacterEncoding("UTF-8"); // Define a codificação de caracteres
+
         try {
             String acao = request.getParameter("acao");
 
@@ -82,6 +90,9 @@ public class ServletUsuarioController extends ServletGenericUtil {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8"); // Define o tipo de conteúdo e a codificação de caracteres
+        request.setCharacterEncoding("UTF-8"); // Define a codificação de caracteres
+
         try {
             String msg = "Operação realizada com sucesso";
             String id = request.getParameter("id");
@@ -100,6 +111,17 @@ public class ServletUsuarioController extends ServletGenericUtil {
             modelLogin.setSenha(senha);
             modelLogin.setPerfil(perfil);
             modelLogin.setSexo(sexo);
+
+            if (ServletFileUpload.isMultipartContent(request)) {
+                Part part = request.getPart("arquivoFoto"); // Pega a foto da tela
+                if (part.getSize() > 0) {
+                    byte[] fotoUsuario = IOUtils.toByteArray(part.getInputStream()); // Converte a imagem para byte
+
+                    String fotoBase64 = "data:image/" + part.getContentType().split("\\/")[1] + ";base64," + new Base64().encodeBase64String(fotoUsuario);
+                    modelLogin.setFotoUsuario(fotoBase64);
+                    modelLogin.setExtensaoFotoUsuario(part.getContentType().split("\\/")[1]);
+                }
+            }
 
             if (daoUsuarioRepository.validarLogin(modelLogin.getLogin()) && modelLogin.getId() == null) {
                 msg = "Já existe um usuário com o mesmo login!";

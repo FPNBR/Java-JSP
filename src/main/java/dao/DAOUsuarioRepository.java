@@ -33,6 +33,16 @@ public class DAOUsuarioRepository {
                 preparedStatement.execute();
                 connection.commit();
 
+                if (usuario.getFotoUsuario() != null && !usuario.getFotoUsuario().isEmpty()) {
+                    sql = "UPDATE model_login SET foto_usuario =?, extensao_foto_usuario=? WHERE login =?";
+                    preparedStatement = connection.prepareStatement(sql);
+                    preparedStatement.setString(1, usuario.getFotoUsuario());
+                    preparedStatement.setString(2, usuario.getExtensaoFotoUsuario());
+                    preparedStatement.setString(3, usuario.getLogin());
+                    preparedStatement.execute();
+                    connection.commit();
+                }
+
             } else { // Atualiza o usuário se o boolean for false
                 String sql = "UPDATE model_login SET login=?, nome=?, email=?, senha=?, perfil=?, sexo=? WHERE id = " + usuario.getId() + ";";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -44,6 +54,16 @@ public class DAOUsuarioRepository {
                 preparedStatement.setString(6, usuario.getSexo());
                 preparedStatement.executeUpdate();
                 connection.commit();
+
+                if (usuario.getFotoUsuario() != null && !usuario.getFotoUsuario().isEmpty()) {
+                    sql = "UPDATE model_login SET foto_usuario =?, extensao_foto_usuario=? WHERE id =?";
+                    preparedStatement = connection.prepareStatement(sql);
+                    preparedStatement.setString(1, usuario.getFotoUsuario());
+                    preparedStatement.setString(2, usuario.getExtensaoFotoUsuario());
+                    preparedStatement.setLong(3, usuario.getId());
+                    preparedStatement.execute();
+                    connection.commit();
+                }
             }
             return this.consultarUsuario(usuario.getLogin(), usuarioLogado);
 
@@ -83,7 +103,7 @@ public class DAOUsuarioRepository {
     public List<ModelLogin> consultarUsuarioList(String nome, Long usuarioLogado) throws SQLException {
         try {
             List<ModelLogin> modelLoginList = new ArrayList<>();
-            String sql = "SELECT * FROM model_login WHERE UPPER(nome) LIKE UPPER(?) and usuario_admin IS FALSE and usuario_id = ?";
+            String sql = "SELECT * FROM model_login WHERE UPPER(nome) LIKE UPPER(?) AND usuario_admin IS FALSE AND usuario_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, "%" + nome + "%");
             preparedStatement.setLong(2, usuarioLogado);
@@ -124,6 +144,7 @@ public class DAOUsuarioRepository {
                 modelLogin.setUsuario_admin(resultSet.getBoolean("usuario_admin"));
                 modelLogin.setPerfil((resultSet.getString("perfil")));
                 modelLogin.setSexo(resultSet.getString("sexo"));
+                modelLogin.setFotoUsuario(resultSet.getString("foto_Usuario"));
             }
             return modelLogin;
 
@@ -137,7 +158,7 @@ public class DAOUsuarioRepository {
     public ModelLogin consultarUsuario(String login) throws SQLException {
         try {
             ModelLogin modelLogin = new ModelLogin();
-            String sql = "SELECT * FROM model_login WHERE UPPER(login) = UPPER('"+login+"') and usuario_admin IS FALSE";
+            String sql = "SELECT * FROM model_login WHERE UPPER(login) = UPPER('"+login+"') AND usuario_admin IS FALSE";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -149,6 +170,7 @@ public class DAOUsuarioRepository {
                 modelLogin.setSenha(resultSet.getString("senha"));
                 modelLogin.setPerfil(resultSet.getString("perfil"));
                 modelLogin.setSexo(resultSet.getString("sexo"));
+                modelLogin.setFotoUsuario(resultSet.getString("foto_Usuario"));
             }
             return modelLogin;
 
@@ -162,7 +184,7 @@ public class DAOUsuarioRepository {
     public ModelLogin consultarUsuario(String login, Long usuarioLogado) throws SQLException {
         try {
             ModelLogin modelLogin = new ModelLogin();
-            String sql = "SELECT * FROM model_login WHERE UPPER(login) = UPPER('"+login+"') and usuario_admin IS FALSE and usuario_id =" + usuarioLogado;
+            String sql = "SELECT * FROM model_login WHERE UPPER(login) = UPPER('"+login+"') AND usuario_admin IS FALSE AND usuario_id =" + usuarioLogado;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -174,6 +196,7 @@ public class DAOUsuarioRepository {
                 modelLogin.setSenha(resultSet.getString("senha"));
                 modelLogin.setPerfil(resultSet.getString("perfil"));
                 modelLogin.setSexo(resultSet.getString("sexo"));
+                modelLogin.setFotoUsuario(resultSet.getString("foto_Usuario"));
             }
             return modelLogin;
 
@@ -187,7 +210,7 @@ public class DAOUsuarioRepository {
     public ModelLogin consultarUsuarioPorId(String id, Long usuarioLogado) throws SQLException {
         try {
             ModelLogin modelLogin = new ModelLogin();
-            String sql = "SELECT * FROM model_login WHERE id = ? and usuario_admin IS FALSE and usuario_id = ?";
+            String sql = "SELECT * FROM model_login WHERE id = ? AND usuario_admin IS FALSE AND usuario_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setLong(1, Long.parseLong(id));
             preparedStatement.setLong(2, usuarioLogado);
@@ -202,6 +225,7 @@ public class DAOUsuarioRepository {
                 modelLogin.setSenha(resultSet.getString("senha"));
                 modelLogin.setPerfil(resultSet.getString("perfil"));
                 modelLogin.setSexo(resultSet.getString("sexo"));
+                modelLogin.setFotoUsuario(resultSet.getString("foto_Usuario"));
             }
             return modelLogin;
 
@@ -230,7 +254,7 @@ public class DAOUsuarioRepository {
 
     public void deletarUsuario(String idUsuario) throws SQLException {
         try {
-            String sql = "DELETE FROM model_login WHERE id = ? and usuario_admin IS FALSE";
+            String sql = "DELETE FROM model_login WHERE id = ? AND usuario_admin IS FALSE";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setLong(1, Long.parseLong(idUsuario));
             preparedStatement.executeUpdate();

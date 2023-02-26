@@ -12,6 +12,8 @@ public class ModelLogin implements Serializable {
     private boolean usuario_admin;
     private String perfil;
     private String sexo;
+    private String fotoUsuario;
+    private String extensaoFotoUsuario;
 
 
     public boolean idExiste() { // Método para verificar se o usuário já possui um id ou não
@@ -85,5 +87,21 @@ public class ModelLogin implements Serializable {
 
     public void setSexo(String sexo) {
         this.sexo = sexo;
+    }
+
+    public String getFotoUsuario() {
+        return fotoUsuario;
+    }
+
+    public void setFotoUsuario(String fotoUsuario) {
+        this.fotoUsuario = fotoUsuario;
+    }
+
+    public String getExtensaoFotoUsuario() {
+        return extensaoFotoUsuario;
+    }
+
+    public void setExtensaoFotoUsuario(String extensaoFotoUsuario) {
+        this.extensaoFotoUsuario = extensaoFotoUsuario;
     }
 }

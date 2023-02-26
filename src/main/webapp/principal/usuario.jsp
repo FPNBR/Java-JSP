@@ -41,10 +41,22 @@
                                             <div class="card">
                                                 <div class="card-block">
                                                     <h4 class="sub-title">Cadastro de usuário</h4>
-                                                    <form class="form-material" action="<%=request.getContextPath()%>/ServletUsuarioController" method="post" id="formUsuario">
-
+                                                    <form class="form-material" enctype="multipart/form-data" action="<%=request.getContextPath()%>/ServletUsuarioController" method="post" id="formUsuario">
                                                         <input type="hidden" name="acao" id="acao" value="">
 
+                                                        <div class="form-group form-default input-group mb-4">
+                                                            <div class="d-flex justify-content-center align-items-center">
+                                                                <div class="input-group-prepend">
+                                                                    <c:if test="${modelLogin.fotoUsuario != '' && modelLogin.fotoUsuario != null}">
+                                                                        <img class="img-70 img-radius" id="fotoBase64" src="${modelLogin.fotoUsuario}" alt="Foto Usuário" style="width: 70px; height: 70px;">
+                                                                    </c:if>
+                                                                    <c:if test="${modelLogin.fotoUsuario == '' || modelLogin.fotoUsuario == null}">
+                                                                        <img class="img-70 img-radius" id="fotoBase64" src="/Java-JSP/assets/images/icon_user.png" alt="User-Profile-Image">
+                                                                    </c:if>
+                                                                </div>
+                                                                <input type="file" id="arquivoFoto" name="arquivoFoto" accept="image/*" onchange="fotoUsuario('fotoBase64', 'arquivoFoto');" class="form-control-file" style="margin-left: 5px;">
+                                                            </div>
+                                                        </div>
                                                         <div class="form-group form-default form-static-label">
                                                             <input type="text" name="id" id="id" class="form-control" autocomplete="off" readonly="readonly" value="${modelLogin.id}">
                                                             <span class="form-bar"></span>
@@ -89,6 +101,14 @@
                                                             <label class="float-label">Perfil:</label>
                                                         </div>
                                                         <div class="form-group form-default form-static-label">
+                                                            <select class="form-control" id="sexo" name="sexo">
+                                                                <option value="masculino" <% if(modelLogin != null && modelLogin.getSexo().equals("masculino")) { out.print("selected"); } %>>Masculino</option>
+                                                                <option value="feminino" <% if(modelLogin != null && modelLogin.getSexo().equals("feminino")) { out.print("selected"); } %>>Feminino</option>
+                                                            </select>
+                                                            <span class="form-bar"></span>
+                                                            <label class="float-label" for="sexo">Sexo:</label>
+                                                        </div>
+                                                        <div class="form-group form-default form-static-label">
                                                             <input type="text" name="login" id="login" class="form-control" required="required" autocomplete="off" value="${modelLogin.login}">
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">Login:</label>
@@ -97,14 +117,6 @@
                                                             <input type="password" name="senha" id="senha" class="form-control" required="required" autocomplete="off" value="${modelLogin.senha}">
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">Senha:</label>
-                                                        </div>
-                                                        <div class="form-group form-default form-static-label">
-                                                            <label for="sexo">Sexo:</label>
-                                                            <span class="form-bar"></span>
-                                                            <select class="form-control" id="sexo" name="sexo">
-                                                                <option value="masculino" <% if(modelLogin != null && modelLogin.getSexo().equals("masculino")) { out.print("selected"); } %>>Masculino</option>
-                                                                <option value="feminino" <% if(modelLogin != null && modelLogin.getSexo().equals("feminino")) { out.print("selected"); } %>>Feminino</option>
-                                                            </select>
                                                         </div>
                                                         <button type="button" class="btn btn-primary waves-effect waves-light" onclick="limparForm();">Novo</button>
                                                         <button type="submit" class="btn btn-success waves-effect waves-light">Salvar</button>
@@ -188,6 +200,26 @@
     </div>
 
 <script type="text/javascript">
+
+    function fotoUsuario(fotoBase64, arquivoFoto) {
+        var preview = document.getElementById(fotoBase64); // Campo IMG HTML
+        var arquivoUsuario = document.getElementById(arquivoFoto).files[0];
+        var reader = new FileReader();
+
+        reader.onloadend = function () {
+            preview.src = reader.result; // Carrega a foto na tela
+        }
+
+        if (arquivoUsuario) {
+            reader.readAsDataURL(arquivoUsuario); // Preview da imagem
+            preview.style.width = "70px";
+            preview.style.height = "70px";
+            }
+        else {
+            preview.src = '';
+        }
+
+    }
 
     function verEditarUsuario(id) {
         var urlAction = document.getElementById('formUsuario').action;
