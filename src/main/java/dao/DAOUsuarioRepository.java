@@ -88,10 +88,11 @@ public class DAOUsuarioRepository {
 
     public int totalPaginas(Long usuarioLogado) throws SQLException {
         try {
-            String sql = "SELECT count(1) FROM model_login WHERE usuario_id = " + usuarioLogado;
+            String sql = "SELECT count(1) AS TOTAL FROM model_login WHERE usuario_id = " + usuarioLogado;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
-            Double totalUsuarios = resultSet.getDouble("totalUsuarios");
+            resultSet.next();
+            Double totalUsuarios = resultSet.getDouble("total");
             Double limitePaginas = 5.0;
             Double totalPaginas = totalUsuarios / limitePaginas;
             Double restoDivisao = totalPaginas % 2.0;
@@ -111,7 +112,7 @@ public class DAOUsuarioRepository {
     public List<ModelLogin> consultarUsuarioViewPaginada(Long usuarioLogado, Integer offset) throws SQLException {
         try {
             List<ModelLogin> modelLoginList = new ArrayList<>();
-            String sql = "SELECT * FROM model_login WHERE usuario_admin IS FALSE and usuario_id =" + usuarioLogado + "ORDER BY nome OFFSET "+offset+" LIMIT 5";
+            String sql = "SELECT * FROM model_login WHERE usuario_admin IS FALSE and usuario_id =" + usuarioLogado + " ORDER BY nome OFFSET "+offset+" LIMIT 5";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -137,7 +138,7 @@ public class DAOUsuarioRepository {
     public List<ModelLogin> consultarUsuarioView(Long usuarioLogado) throws SQLException {
         try {
             List<ModelLogin> modelLoginList = new ArrayList<>();
-            String sql = "SELECT * FROM model_login WHERE usuario_admin IS FALSE and usuario_id =" + usuarioLogado + "LIMIT 5";
+            String sql = "SELECT * FROM model_login WHERE usuario_admin IS FALSE and usuario_id = " + usuarioLogado + " LIMIT 5";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
 
