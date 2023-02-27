@@ -86,6 +86,28 @@ public class DAOUsuarioRepository {
         }
     }
 
+    public int totalPaginas(Long usuarioLogado) throws SQLException {
+        try {
+            String sql = "SELECT count(1) FROM model_login WHERE usuario_id = " + usuarioLogado;
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Double totalUsuarios = resultSet.getDouble("totalUsuarios");
+            Double limitePaginas = 5.0;
+            Double totalPaginas = totalUsuarios / limitePaginas;
+            Double restoDivisao = totalPaginas % 2.0;
+
+            if (restoDivisao > 0) {
+                totalPaginas++;
+            }
+            return totalPaginas.intValue();
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            connection.rollback();
+            throw new SQLException("Erro na paginação para consultar usuários: " + e.getMessage());
+        }
+    }
+
     public List<ModelLogin> consultarUsuarioViewPaginada(Long usuarioLogado, Integer offset) throws SQLException {
         try {
             List<ModelLogin> modelLoginList = new ArrayList<>();

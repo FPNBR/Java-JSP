@@ -36,6 +36,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
                 request.setAttribute("modelLoginView", modelLoginView);
 
                 request.setAttribute("msg", "Excluído com sucesso!");
+                request.setAttribute("totalPaginas", daoUsuarioRepository.totalPaginas(this.getUsuarioLogado(request)));
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
             }
             
@@ -63,6 +64,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 
                 request.setAttribute("msg", "Dados do usuário resgatados!");
                 request.setAttribute("modelLogin", modelLogin);
+                request.setAttribute("totalPaginas", daoUsuarioRepository.totalPaginas(this.getUsuarioLogado(request)));
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
             }
 
@@ -70,6 +72,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
                 List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView(super.getUsuarioLogado(request));
                 request.setAttribute("modelLoginView", modelLoginView);
                 request.setAttribute("msg", "Usuários carregados!");
+                request.setAttribute("totalPaginas", daoUsuarioRepository.totalPaginas(this.getUsuarioLogado(request)));
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
             }
 
@@ -86,6 +89,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
                 // Mostra os usuários novamente na tabela na página cadastrar/usuários ao fazer outras requisições
                 List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView(super.getUsuarioLogado(request));
                 request.setAttribute("modelLoginView", modelLoginView);
+                request.setAttribute("totalPaginas", daoUsuarioRepository.totalPaginas(this.getUsuarioLogado(request)));
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
             }
 
@@ -161,6 +165,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 
             request.setAttribute("msg", msg);
             request.setAttribute("modelLogin", modelLogin);
+            request.setAttribute("totalPaginas", daoUsuarioRepository.totalPaginas(this.getUsuarioLogado(request)));
             request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
 
         } catch (Exception e) {
