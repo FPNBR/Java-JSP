@@ -47,7 +47,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 
             else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarUsuarioAjax")) {
                 String nomeUsuario = request.getParameter("nomeUsuario");
-                List<ModelLogin> dadosUsuarios = daoUsuarioRepository.consultarUsuarioList(nomeUsuario, super.getUsuarioLogado(request));
+                List<ModelLogin> dadosUsuarios = daoUsuarioRepository.consultarUsuarioAjax(nomeUsuario, super.getUsuarioLogado(request));
                 ObjectMapper objectMapper = new ObjectMapper();
                 String dadosUsuariosJSON = objectMapper.writeValueAsString(dadosUsuarios);
                 response.getWriter().write(dadosUsuariosJSON);
