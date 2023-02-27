@@ -9,11 +9,17 @@ public class ModelLogin implements Serializable {
     private String nome;
     private String email;
     private String senha;
-    private boolean usuario_admin;
+    private boolean usuarioAdmin;
     private String perfil;
     private String sexo;
     private String fotoUsuario;
     private String extensaoFotoUsuario;
+    private String cep;
+    private String logradouro;
+    private String bairro;
+    private String localidade;
+    private String uf;
+    private String numeroCasa;
 
 
     public boolean idExiste() { // Método para verificar se o usuário já possui um id ou não
@@ -65,12 +71,12 @@ public class ModelLogin implements Serializable {
         this.senha = senha;
     }
 
-    public boolean getUsuario_admin() {
-        return usuario_admin;
+    public boolean getUsuarioAdmin() {
+        return usuarioAdmin;
     }
 
-    public void setUsuario_admin(boolean usuario_admin) {
-        this.usuario_admin = usuario_admin;
+    public void setUsuarioAdmin(boolean usuarioAdmin) {
+        this.usuarioAdmin = usuarioAdmin;
     }
 
     public String getPerfil() {
@@ -103,5 +109,53 @@ public class ModelLogin implements Serializable {
 
     public void setExtensaoFotoUsuario(String extensaoFotoUsuario) {
         this.extensaoFotoUsuario = extensaoFotoUsuario;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public String getLogradouro() {
+        return logradouro;
+    }
+
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    public String getLocalidade() {
+        return localidade;
+    }
+
+    public void setLocalidade(String localidade) {
+        this.localidade = localidade;
+    }
+
+    public String getUf() {
+        return uf;
+    }
+
+    public void setUf(String uf) {
+        this.uf = uf;
+    }
+
+    public String getNumeroCasa() {
+        return numeroCasa;
+    }
+
+    public void setNumeroCasa(String numeroCasa) {
+        this.numeroCasa = numeroCasa;
     }
 }

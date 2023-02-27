@@ -111,6 +111,12 @@ public class ServletUsuarioController extends ServletGenericUtil {
             String senha = request.getParameter("senha");
             String perfil = request.getParameter("perfil");
             String sexo = request.getParameter("sexo");
+            String cep = request.getParameter("cep");
+            String logradouro = request.getParameter("logradouro");
+            String bairro = request.getParameter("bairro");
+            String localidade = request.getParameter("localidade");
+            String uf = request.getParameter("uf");
+            String numeroCasa = request.getParameter("numero_casa");
 
             ModelLogin modelLogin = new ModelLogin();
             modelLogin.setId(id != null && !id.isEmpty() ? Long.parseLong(id) : null);
@@ -120,6 +126,12 @@ public class ServletUsuarioController extends ServletGenericUtil {
             modelLogin.setSenha(senha);
             modelLogin.setPerfil(perfil);
             modelLogin.setSexo(sexo);
+            modelLogin.setCep(cep);
+            modelLogin.setLogradouro(logradouro);
+            modelLogin.setBairro(bairro);
+            modelLogin.setLocalidade(localidade);
+            modelLogin.setUf(uf);
+            modelLogin.setNumeroCasa(numeroCasa);
 
             if (ServletFileUpload.isMultipartContent(request)) {
                 Part part = request.getPart("arquivoFoto"); // Pega a foto da tela
