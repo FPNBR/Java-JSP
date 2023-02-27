@@ -73,6 +73,15 @@ public class ServletUsuarioController extends ServletGenericUtil {
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
             }
 
+            else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("downloadFotoUsuario")) {
+                String idUsuario = request.getParameter("id");
+                ModelLogin modelLogin = daoUsuarioRepository.consultarUsuarioPorId(idUsuario, super.getUsuarioLogado(request));
+                if (modelLogin.getFotoUsuario() != null && !modelLogin.getFotoUsuario().isEmpty()) {
+                    response.setHeader("Content-Disposition", "attachment;filename=arquivo." + modelLogin.getExtensaoFotoUsuario());
+                    response.getOutputStream().write(new Base64().decodeBase64(modelLogin.getFotoUsuario().split("\\,")[1]));
+                }
+            }
+
             else {
                 // Mostra os usuários novamente na tabela na página cadastrar/usuários ao fazer outras requisições
                 List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView(super.getUsuarioLogado(request));

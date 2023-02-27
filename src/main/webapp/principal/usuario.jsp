@@ -48,7 +48,9 @@
                                                             <div class="d-flex justify-content-center align-items-center">
                                                                 <div class="input-group-prepend">
                                                                     <c:if test="${modelLogin.fotoUsuario != '' && modelLogin.fotoUsuario != null}">
+                                                                        <a href="<%= request.getContextPath()%>/ServletUsuarioController?acao=downloadFotoUsuario&id=${modelLogin.id}">
                                                                         <img class="img-70 img-radius" id="fotoBase64" src="${modelLogin.fotoUsuario}" alt="Foto Usuário" style="width: 70px; height: 70px;">
+                                                                        </a>
                                                                     </c:if>
                                                                     <c:if test="${modelLogin.fotoUsuario == '' || modelLogin.fotoUsuario == null}">
                                                                         <img class="img-70 img-radius" id="fotoBase64" src="/Java-JSP/assets/images/icon_user.png" alt="User-Profile-Image">
