@@ -85,6 +85,17 @@ public class ServletUsuarioController extends ServletGenericUtil {
                 }
             }
 
+            else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("paginacao")) {
+                Integer offset = Integer.parseInt(request.getParameter("pagina"));
+                if (offset < 0) {
+                    offset = 0;
+                }
+                List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioViewPaginada(this.getUsuarioLogado(request), offset);
+                request.setAttribute("modelLoginView", modelLoginView);
+                request.setAttribute("totalPaginas", daoUsuarioRepository.totalPaginas(this.getUsuarioLogado(request)));
+                request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
+            }
+
             else {
                 // Mostra os usuários novamente na tabela na página cadastrar/usuários ao fazer outras requisições
                 List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView(super.getUsuarioLogado(request));

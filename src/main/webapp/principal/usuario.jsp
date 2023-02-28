@@ -138,7 +138,7 @@
                                                         <div class="form-group form-default form-static-label">
                                                             <input type="text" name="numero_casa" id="numero_casa" class="form-control" required="required" autocomplete="off" value="${modelLogin.numeroCasa}">
                                                             <span class="form-bar"></span>
-                                                            <label class="float-label">Número Casa</label>
+                                                            <label class="float-label">Número da Casa</label>
                                                         </div>
                                                         <div class="form-group form-default form-static-label">
                                                             <input type="text" name="login" id="login" class="form-control" required="required" autocomplete="off" value="${modelLogin.login}">
@@ -158,28 +158,40 @@
                                                 </div>
                                             </div>
                                         </div>
-                                </div>
-                                    <span id="msg">${msg}</span>
-                                    <div style="height: 300px; overflow: scroll;">
-                                        <table class="table" id="tabelaResultadoUsuarioView">
-                                            <thead class="thead-dark">
-                                            <tr>
-                                                <th scope="col">ID</th>
-                                                <th scope="col">Nome</th>
-                                                <th scope="col">Ver/Editar</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <c:forEach items="${modelLoginView}" var="mlv">
-                                                <tr>
-                                                    <td><c:out value="${mlv.id}"></c:out></td>
-                                                    <td><c:out value="${mlv.nome}"></c:out></td>
-                                                    <td><a class="btn btn-warning" href="<%=request.getContextPath()%>/ServletUsuarioController?acao=verEditarUsuario&id=${mlv.id}">Ver/Editar Usuário</a></td>
-                                                </tr>
-                                            </c:forEach>
-                                            </tbody>
-                                        </table>
                                     </div>
+                                        <span id="msg">${msg}</span>
+                                        <div style="height: 300px; overflow: scroll;">
+                                            <table class="table" id="tabelaResultadoUsuarioView">
+                                                <thead class="thead-dark">
+                                                <tr>
+                                                    <th scope="col">ID</th>
+                                                    <th scope="col">Nome</th>
+                                                    <th scope="col">Ver/Editar</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <c:forEach items="${modelLoginView}" var="mlv">
+                                                    <tr>
+                                                        <td><c:out value="${mlv.id}"></c:out></td>
+                                                        <td><c:out value="${mlv.nome}"></c:out></td>
+                                                        <td><a class="btn btn-warning" href="<%=request.getContextPath()%>/ServletUsuarioController?acao=verEditarUsuario&id=${mlv.id}">Ver/Editar Usuário</a></td>
+                                                    </tr>
+                                                </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <nav aria-label="Paginação">
+                                            <ul class="pagination">
+                                                <%
+                                                    int totalPaginas = (int) request.getAttribute("totalPaginas");
+                                                    for (int i = 0; i < totalPaginas; i++) {
+                                                        String url = request.getContextPath() + "/ServletUsuarioController?acao=paginacao&pagina=" + (i * 5);
+                                                        out.print("<li class=\"page-item\"><a class=\"page-link\" href=\""+ url +"\">"+(i + 1)+"</a></li>");
+                                                    }
+                                                %>
+                                            </ul>
+                                        </nav>
+                                </div>
                                 <!-- Page-body end -->
                             </div>
                             <div id="styleSelector"> </div>

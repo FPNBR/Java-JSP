@@ -88,21 +88,17 @@ public class DAOUsuarioRepository {
 
     public int totalPaginas(Long usuarioLogado) throws SQLException {
         try {
-            String sql = "SELECT count(1) AS TOTAL FROM model_login WHERE usuario_id = " + usuarioLogado;
+            String sql = "SELECT count(1) AS TOTAL FROM model_login WHERE usuario_admin IS FALSE and usuario_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1, usuarioLogado);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             Double totalUsuarios = resultSet.getDouble("total");
             Double limitePaginas = 5.0;
-            Double totalPaginas = totalUsuarios / limitePaginas;
-            Double restoDivisao = totalPaginas % 2.0;
-
-            if (restoDivisao > 0) {
-                totalPaginas++;
-            }
+            Double totalPaginas = Math.ceil(totalUsuarios / limitePaginas);
             return totalPaginas.intValue();
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             connection.rollback();
             throw new SQLException("Erro na paginação para consultar usuários: " + e.getMessage());
@@ -112,9 +108,12 @@ public class DAOUsuarioRepository {
     public List<ModelLogin> consultarUsuarioViewPaginada(Long usuarioLogado, Integer offset) throws SQLException {
         try {
             List<ModelLogin> modelLoginList = new ArrayList<>();
-            String sql = "SELECT * FROM model_login WHERE usuario_admin IS FALSE and usuario_id =" + usuarioLogado + " ORDER BY nome OFFSET "+offset+" LIMIT 5";
+            String sql = "SELECT * FROM model_login WHERE usuario_admin IS FALSE and usuario_id = ? ORDER BY nome LIMIT 5 OFFSET ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1, usuarioLogado);
+            preparedStatement.setInt(2, offset);
             ResultSet resultSet = preparedStatement.executeQuery();
+
 
             while (resultSet.next()) { // Percorrer as linhas de resultado do SQL
                 ModelLogin modelLogin = new ModelLogin();
