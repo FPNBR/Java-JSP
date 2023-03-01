@@ -1,4 +1,9 @@
 // Criar banco
+
+-- Database: jsp
+
+-- DROP DATABASE IF EXISTS jsp;
+
 CREATE DATABASE jsp
     WITH
     OWNER = postgres
@@ -7,18 +12,39 @@ CREATE DATABASE jsp
     LC_CTYPE = 'Portuguese_Brazil.1252'
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1
-    IS_TEMPLATE = False;
+    IS_TEMPLATE = False;    IS_TEMPLATE = False;
 
 // Criar tabela
+
+-- Table: public.model_login
+
+-- DROP TABLE IF EXISTS public.model_login;
+
 CREATE TABLE IF NOT EXISTS public.model_login
 (
     login character varying(256) COLLATE pg_catalog."default" NOT NULL DEFAULT NULL::character varying,
     senha character varying(256) COLLATE pg_catalog."default" NOT NULL DEFAULT NULL::character varying,
-    id integer NOT NULL DEFAULT nextval('model_login_id_seq'::regclass),
+    id integer,
     nome character varying(256) COLLATE pg_catalog."default" NOT NULL DEFAULT NULL::character varying,
     email character varying(256) COLLATE pg_catalog."default" NOT NULL DEFAULT NULL::character varying,
+    usuario_admin boolean NOT NULL DEFAULT false,
+    usuario_id bigint NOT NULL DEFAULT 1,
+    perfil character varying(256) COLLATE pg_catalog."default" NOT NULL DEFAULT NULL::character varying,
+    sexo character varying(256) COLLATE pg_catalog."default",
+    foto_usuario text COLLATE pg_catalog."default",
+    extensao_foto_usuario character varying(10) COLLATE pg_catalog."default",
+    cep character varying(256) COLLATE pg_catalog."default",
+    logradouro character varying(256) COLLATE pg_catalog."default",
+    bairro character varying(256) COLLATE pg_catalog."default",
+    localidade character varying(256) COLLATE pg_catalog."default",
+    uf character varying(256) COLLATE pg_catalog."default",
+    numero_casa character varying(256) COLLATE pg_catalog."default",
     CONSTRAINT model_login_pkey PRIMARY KEY (id),
-    CONSTRAINT login_unique UNIQUE (login)
+    CONSTRAINT login_unique UNIQUE (login),
+    CONSTRAINT usuario_fk FOREIGN KEY (usuario_id)
+        REFERENCES public.model_login (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
 )
 
 TABLESPACE pg_default;
@@ -26,12 +52,23 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public.model_login
     OWNER to postgres;
 
-// Criar usuário
-INSERT INTO public.model_login(
-	login, senha)
-	VALUES ('admin', 'admin');
+// Criar sequência
 
-// Adicionar coluna
-alter table model_login add id serial primary key;
-alter table model_login add nome character varying(256);
-alter table model_login add email character varying(256);
+-- SEQUENCE: public.model_login_id_seq
+
+-- DROP SEQUENCE IF EXISTS public.model_login_id_seq;
+
+CREATE SEQUENCE IF NOT EXISTS public.model_login_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 2147483647
+    CACHE 1
+    OWNED BY model_login.id;
+
+ALTER SEQUENCE public.model_login_id_seq
+    OWNER TO postgres;
+
+// Adicionar sequência na coluna id
+
+ALTER TABLE model_login ALTER COLUMN id SET DEFAULT nextval('model_login_id_seq')

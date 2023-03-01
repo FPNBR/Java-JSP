@@ -276,7 +276,6 @@
         else {
             preview.src = '';
         }
-
     }
 
     function verEditarUsuario(id) {
