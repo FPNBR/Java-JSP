@@ -152,7 +152,7 @@
                                                         </div>
                                                         <button type="button" class="btn btn-primary waves-effect waves-light" onclick="limparForm();">Novo</button>
                                                         <button type="submit" class="btn btn-success waves-effect waves-light">Salvar</button>
-                                                        <button type="button" class="btn btn-danger waves-effect waves-light" onclick="deletarUsuarioAjax();">Excluir</button>
+                                                        <button type="button" class="btn btn-danger waves-effect waves-light" onclick="deletarUsuario();">Excluir</button>
                                                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalUsuario">Pesquisar Usuário</button>
                                                     </form>
                                                 </div>
@@ -218,7 +218,7 @@
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Digite o nome do usuário" aria-label="nome" id="nomeUsuario" aria-describedby="basic-addon2">
                         <div class="input-group-append">
-                            <button class="btn btn-info" type="button" onclick="buscarUsuarioAjax();">Buscar</button>
+                            <button class="btn btn-info" type="button" onclick="buscarUsuarioNomeAjax();">Buscar</button>
                         </div>
                     </div>
                     <div style="height: 300px; overflow: scroll;">
@@ -235,6 +235,10 @@
                         </table>
                     </div>
                 </div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination" id="modaltabelaResultadoUsuario">
+                    </ul>
+                </nav>
                 <span id="tabelaQuantidadeUsuario"></span>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -283,19 +287,55 @@
         window.location.href = urlAction + '?acao=verEditarUsuario&id='+id;
     }
 
-    function buscarUsuarioAjax() {
+    function buscarUsuarioNomeAjaxPaginada(url) {
         var nomeUsuario = document.getElementById('nomeUsuario').value;
         var urlAction = document.getElementById('formUsuario').action;
 
+        $.ajax({
+            method: 'get',
+            url: urlAction,
+            data: url,
+            success: function (response, textStatus, xhr) {
+                var json = JSON.parse(response);
+
+                $('#tabelaResultadoUsuario > tbody > tr').remove();
+                $('#modaltabelaResultadoUsuario > li').remove();
+
+                for (var i = 0; i < json.length; i++) {
+                    $('#tabelaResultadoUsuario > tbody').append('<tr> ' +
+                        '<td>' + json[i].id + ' </td>' +
+                        '<td>' + json[i].nome + ' </td>' +
+                        '<td><button onclick="verEditarUsuario('+json[i].id+')" type="button" class="btn btn-warning">Editar usuário</button></td> </tr>');
+                }
+
+                document.getElementById('tabelaQuantidadeUsuario').textContent = 'Usuários encontrados: ' + json.length;
+                var totalPaginas = xhr.getResponseHeader('totalPaginas');
+
+                for (var j = 0; j < totalPaginas; j++) {
+                    var url = 'nomeUsuario=' + nomeUsuario + '&acao=buscarUsuarioNomeAjaxPaginada&pagina='+ (j * 5);
+                    $("#modaltabelaResultadoUsuario").append('<li class="page-item"><a class="page-link" href="#" onclick="buscarUsuarioNomeAjaxPaginada(\''+url+'\')">'+ (j + 1) +'</a></li>');                    }
+            }
+
+        }).fail(function (xhr, status, errorThrown){
+            alert('Erro ao buscar usuário por nome: ' + xhr.responseText);
+        });
+    }
+
+    function buscarUsuarioNomeAjax() {
+        var nomeUsuario = document.getElementById('nomeUsuario').value;
+
         if (nomeUsuario != null && nomeUsuario != '' && nomeUsuario.trim() != '') { // Validando que tem que ter valor para buscar no banco
+            var urlAction = document.getElementById('formUsuario').action;
+
             $.ajax({
                 method: 'get',
                 url: urlAction,
-                data: 'nomeUsuario=' + nomeUsuario + '&acao=buscarUsuarioAjax',
-                success: function (response) {
+                data: 'nomeUsuario=' + nomeUsuario + '&acao=buscarUsuarioNomeAjax',
+                success: function (response, textStatus, xhr) {
                     var json = JSON.parse(response);
 
                     $('#tabelaResultadoUsuario > tbody > tr').remove();
+                    $('#modaltabelaResultadoUsuario > li').remove();
 
                     for (var i = 0; i < json.length; i++) {
                         $('#tabelaResultadoUsuario > tbody').append('<tr> ' +
@@ -303,7 +343,13 @@
                             '<td>' + json[i].nome + ' </td>' +
                             '<td><button onclick="verEditarUsuario('+json[i].id+')" type="button" class="btn btn-warning">Editar usuário</button></td> </tr>');
                     }
+
                     document.getElementById('tabelaQuantidadeUsuario').textContent = 'Usuários encontrados: ' + json.length;
+                    var totalPaginas = xhr.getResponseHeader("totalPaginas");
+
+                    for (var j = 0; j < totalPaginas; j++) {
+                        var url = 'nomeUsuario=' + nomeUsuario + '&acao=buscarUsuarioNomeAjaxPaginada&pagina='+ (j * 5);
+                        $("#modaltabelaResultadoUsuario").append('<li class="page-item"><a class="page-link" href="#" onclick="buscarUsuarioNomeAjaxPaginada(\''+url+'\')">'+ (j + 1) +'</a></li>');                    }
                 }
 
             }).fail(function (xhr, status, errorThrown){

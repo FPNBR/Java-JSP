@@ -105,7 +105,33 @@ public class DAOUsuarioRepository {
         }
     }
 
-    public List<ModelLogin> consultarUsuarioViewPaginada(Long usuarioLogado, Integer offset) throws SQLException {
+    public List<ModelLogin> gerarTabelaUsuario(Long usuarioLogado) throws SQLException {
+        try {
+            List<ModelLogin> modelLoginList = new ArrayList<>();
+            String sql = "SELECT * FROM model_login WHERE usuario_admin IS FALSE and usuario_id = " + usuarioLogado + " LIMIT 5";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) { // Percorrer as linhas de resultado do SQL
+                ModelLogin modelLogin = new ModelLogin();
+                modelLogin.setId(resultSet.getLong("id"));
+                modelLogin.setLogin(resultSet.getString("login"));
+                modelLogin.setNome(resultSet.getString("nome"));
+                modelLogin.setEmail(resultSet.getString("email"));
+                modelLogin.setPerfil(resultSet.getString("perfil"));
+                modelLogin.setSexo(resultSet.getString("sexo"));
+                modelLoginList.add(modelLogin);
+            }
+            return modelLoginList;
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            connection.rollback();
+            throw new SQLException("Erro ao consultar usuário: " + e.getMessage());
+        }
+    }
+
+    public List<ModelLogin> gerarTabelaUsuario(Long usuarioLogado, Integer offset) throws SQLException {
         try {
             List<ModelLogin> modelLoginList = new ArrayList<>();
             String sql = "SELECT * FROM model_login WHERE usuario_admin IS FALSE and usuario_id = ? ORDER BY nome LIMIT 5 OFFSET ?";
@@ -134,11 +160,35 @@ public class DAOUsuarioRepository {
         }
     }
 
-    public List<ModelLogin> consultarUsuarioView(Long usuarioLogado) throws SQLException {
+    public int buscarUsuarioNomeAjaxPaginada(String nome, Long usuarioLogado) throws SQLException {
+        try {
+            String sql = "SELECT COUNT(1) AS TOTAL FROM model_login WHERE UPPER(nome) LIKE UPPER(?) AND usuario_admin IS FALSE AND usuario_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, "%" + nome + "%");
+            preparedStatement.setLong(2, usuarioLogado);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            resultSet.next();
+            Double totalUsuarios = resultSet.getDouble("total");
+            Double limitePaginas = 5.0;
+            Double totalPaginas = Math.ceil(totalUsuarios / limitePaginas);
+            return totalPaginas.intValue();
+
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            connection.rollback();
+            throw new SQLException("Erro ao consultar usuário: " + e.getMessage());
+        }
+    }
+
+    public List<ModelLogin> buscarUsuarioNomeAjax(String nome, Long usuarioLogado) throws SQLException {
         try {
             List<ModelLogin> modelLoginList = new ArrayList<>();
-            String sql = "SELECT * FROM model_login WHERE usuario_admin IS FALSE and usuario_id = " + usuarioLogado + " LIMIT 5";
+            String sql = "SELECT * FROM model_login WHERE UPPER(nome) LIKE UPPER(?) AND usuario_admin IS FALSE AND usuario_id = ? LIMIT 5";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, "%" + nome + "%");
+            preparedStatement.setLong(2, usuarioLogado);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) { // Percorrer as linhas de resultado do SQL
@@ -160,10 +210,10 @@ public class DAOUsuarioRepository {
         }
     }
 
-    public List<ModelLogin> consultarUsuarioAjax(String nome, Long usuarioLogado) throws SQLException {
+    public List<ModelLogin> buscarUsuarioNomeAjax(String nome, Long usuarioLogado, Integer offset) throws SQLException {
         try {
             List<ModelLogin> modelLoginList = new ArrayList<>();
-            String sql = "SELECT * FROM model_login WHERE UPPER(nome) LIKE UPPER(?) AND usuario_admin IS FALSE AND usuario_id = ? LIMIT 5";
+            String sql = "SELECT * FROM model_login WHERE UPPER(nome) LIKE UPPER(?) AND usuario_admin IS FALSE AND usuario_id = ? OFFSET "+offset+" LIMIT 5";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, "%" + nome + "%");
             preparedStatement.setLong(2, usuarioLogado);
@@ -243,7 +293,6 @@ public class DAOUsuarioRepository {
                 modelLogin.setLocalidade(resultSet.getString("localidade"));
                 modelLogin.setUf(resultSet.getString("uf"));
                 modelLogin.setNumeroCasa(resultSet.getString("numero_casa"));
-
             }
             return modelLogin;
 
@@ -345,6 +394,7 @@ public class DAOUsuarioRepository {
             preparedStatement.setLong(1, Long.parseLong(idUsuario));
             preparedStatement.executeUpdate();
             connection.commit();
+
         }catch (Exception e) {
             e.printStackTrace();
             connection.rollback();

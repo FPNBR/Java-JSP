@@ -32,7 +32,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
                 daoUsuarioRepository.deletarUsuario(idUsuario);
 
                 // Mostra os usuários novamente na tabela na página cadastrar/usuários ao fazer outras requisições
-                List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView(super.getUsuarioLogado(request));
+                List<ModelLogin> modelLoginView = daoUsuarioRepository.gerarTabelaUsuario(super.getUsuarioLogado(request));
                 request.setAttribute("modelLoginView", modelLoginView);
 
                 request.setAttribute("msg", "Excluído com sucesso!");
@@ -46,11 +46,22 @@ public class ServletUsuarioController extends ServletGenericUtil {
                     response.getWriter().write("Excluído com sucesso!");
             }
 
-            else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarUsuarioAjax")) {
+            else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarUsuarioNomeAjax")) {
                 String nomeUsuario = request.getParameter("nomeUsuario");
-                List<ModelLogin> dadosUsuarios = daoUsuarioRepository.consultarUsuarioAjax(nomeUsuario, super.getUsuarioLogado(request));
+                List<ModelLogin> dadosUsuarios = daoUsuarioRepository.buscarUsuarioNomeAjax(nomeUsuario, super.getUsuarioLogado(request));
                 ObjectMapper objectMapper = new ObjectMapper();
                 String dadosUsuariosJSON = objectMapper.writeValueAsString(dadosUsuarios);
+                response.addHeader("totalPaginas", ""+ daoUsuarioRepository.buscarUsuarioNomeAjaxPaginada(nomeUsuario, super.getUsuarioLogado(request)));
+                response.getWriter().write(dadosUsuariosJSON);
+            }
+
+            else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarUsuarioNomeAjaxPaginada")) {
+                String nomeUsuario = request.getParameter("nomeUsuario");
+                String pagina = request.getParameter("pagina");
+                List<ModelLogin> dadosUsuarios = daoUsuarioRepository.buscarUsuarioNomeAjax(nomeUsuario, super.getUsuarioLogado(request), Integer.parseInt(pagina));
+                ObjectMapper objectMapper = new ObjectMapper();
+                String dadosUsuariosJSON = objectMapper.writeValueAsString(dadosUsuarios);
+                response.addHeader("totalPaginas", ""+ daoUsuarioRepository.buscarUsuarioNomeAjaxPaginada(nomeUsuario, super.getUsuarioLogado(request)));
                 response.getWriter().write(dadosUsuariosJSON);
             }
 
@@ -59,7 +70,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
                 ModelLogin modelLogin = daoUsuarioRepository.consultarUsuarioPorId(idUsuario, super.getUsuarioLogado(request));
 
                 // Mostra os usuários novamente na tabela na página cadastrar/usuários ao fazer outras requisições
-                List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView(super.getUsuarioLogado(request));
+                List<ModelLogin> modelLoginView = daoUsuarioRepository.gerarTabelaUsuario(super.getUsuarioLogado(request));
                 request.setAttribute("modelLoginView", modelLoginView);
 
                 request.setAttribute("msg", "Dados do usuário resgatados!");
@@ -69,7 +80,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
             }
 
             else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("listarUsuario")) {// Mostra os usuários novamente na tabela na página cadastrar/usuários ao fazer outras requisições
-                List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView(super.getUsuarioLogado(request));
+                List<ModelLogin> modelLoginView = daoUsuarioRepository.gerarTabelaUsuario(super.getUsuarioLogado(request));
                 request.setAttribute("modelLoginView", modelLoginView);
                 request.setAttribute("msg", "Usuários carregados!");
                 request.setAttribute("totalPaginas", daoUsuarioRepository.totalPaginas(this.getUsuarioLogado(request)));
@@ -90,7 +101,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
                 if (offset < 0) {
                     offset = 0;
                 }
-                List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioViewPaginada(this.getUsuarioLogado(request), offset);
+                List<ModelLogin> modelLoginView = daoUsuarioRepository.gerarTabelaUsuario(this.getUsuarioLogado(request), offset);
                 request.setAttribute("modelLoginView", modelLoginView);
                 request.setAttribute("totalPaginas", daoUsuarioRepository.totalPaginas(this.getUsuarioLogado(request)));
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
@@ -98,7 +109,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 
             else {
                 // Mostra os usuários novamente na tabela na página cadastrar/usuários ao fazer outras requisições
-                List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView(super.getUsuarioLogado(request));
+                List<ModelLogin> modelLoginView = daoUsuarioRepository.gerarTabelaUsuario(super.getUsuarioLogado(request));
                 request.setAttribute("modelLoginView", modelLoginView);
                 request.setAttribute("totalPaginas", daoUsuarioRepository.totalPaginas(this.getUsuarioLogado(request)));
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
@@ -171,7 +182,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
             }
 
             // Mostra os usuários novamente na tabela na página cadastrar/usuários ao fazer outras requisições
-            List<ModelLogin> modelLoginView = daoUsuarioRepository.consultarUsuarioView(super.getUsuarioLogado(request));
+            List<ModelLogin> modelLoginView = daoUsuarioRepository.gerarTabelaUsuario(super.getUsuarioLogado(request));
             request.setAttribute("modelLoginView", modelLoginView);
 
             request.setAttribute("msg", msg);
