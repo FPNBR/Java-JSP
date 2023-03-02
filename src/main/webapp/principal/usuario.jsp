@@ -154,8 +154,8 @@
                                                         <button type="submit" class="btn btn-success waves-effect waves-light">Salvar</button>
                                                         <button type="button" class="btn btn-danger waves-effect waves-light" onclick="deletarUsuario();">Excluir</button>
                                                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalUsuario">Pesquisar Usuário</button>
-                                                        <c:if test="${modelLogin.id} > 0">
-                                                            <a href="<%= request.getContextPath() %>/ServletTelefoneController?idUsuario=${modelLogin.id}" class="btn btn-link">Salvar Telefone</a>
+                                                        <c:if test="${modelLogin.id > 0}">
+                                                            <a href="<%= request.getContextPath() %>/ServletTelefoneController?idUsuario=${modelLogin.id}" class="btn btn-link">Ver Telefones</a>
                                                         </c:if>
                                                     </form>
                                                 </div>
@@ -173,11 +173,11 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <c:forEach items="${modelLoginView}" var="mlv">
+                                                <c:forEach items="${modelLoginView}" var="mt">
                                                     <tr>
-                                                        <td><c:out value="${mlv.id}"></c:out></td>
-                                                        <td><c:out value="${mlv.nome}"></c:out></td>
-                                                        <td><a class="btn btn-warning" href="<%=request.getContextPath()%>/ServletUsuarioController?acao=verEditarUsuario&id=${mlv.id}">Ver/Editar Usuário</a></td>
+                                                        <td><c:out value="${mt.id}"></c:out></td>
+                                                        <td><c:out value="${mt.nome}"></c:out></td>
+                                                        <td><a class="btn btn-warning" href="<%=request.getContextPath()%>/ServletUsuarioController?acao=verEditarUsuario&id=${mt.id}">Ver/Editar Usuário</a></td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>

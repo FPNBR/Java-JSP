@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,7 +34,53 @@
                                 <!-- Page-body start -->
                                 <div class="page-body">
                                     <div class="row">
-                                        <h1>Tela de telefone</h1>
+                                        <div class="col-sm-12">
+                                            <!-- Basic Form Inputs card start -->
+                                            <div class="card">
+                                                <div class="card-block">
+                                                    <h4 class="sub-title">Cadastro de Telefone</h4>
+                                                    <form class="form-material" action="<%=request.getContextPath() %>/ServletTelefoneController" method="post" id="formTelefone">
+                                                        <div class="form-group form-default form-static-label">
+                                                            <input type="text" name="id" id="id" class="form-control" autocomplete="off" readonly="readonly" value="${modelLogin.id}">
+                                                            <span class="form-bar"></span>
+                                                            <label class="float-label">ID Usuário:</label>
+                                                        </div>
+                                                        <div class="form-group form-default form-static-label">
+                                                            <input readonly="readonly" type="text" name="nome" id="nome" class="form-control" required="required" autocomplete="off" value="${modelLogin.nome}">
+                                                            <span class="form-bar"></span>
+                                                            <label class="float-label">Nome do Usuário:</label>
+                                                        </div>
+                                                        <div class="form-group form-default form-static-label">
+                                                            <input type="text" name="numero" id="numero" class="form-control" required="required" autocomplete="off">
+                                                            <span class="form-bar"></span>
+                                                            <label class="float-label">Número:</label>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-success waves-effect waves-light">Salvar Telefone</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span id="msg">${msg}</span>
+                                    <div style="height: 300px; overflow: scroll;">
+                                        <table class="table" id="tabelaResultadoUsuarioView">
+                                            <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Número</th>
+                                                <th scope="col">Excluir</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <c:forEach items="${modelTelefones}" var="mt">
+                                                <tr>
+                                                    <td><c:out value="${mt.id}"></c:out></td>
+                                                    <td><c:out value="${mt.numero}"></c:out></td>
+                                                    <td><a class="btn btn-warning" href="<%=request.getContextPath()%>/ServletTelefoneController?acao=deletarTelefone&id=${mt.id}&idPai=${modelLogin.id}">Excluir</a></td>
+                                                </tr>
+                                            </c:forEach>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                                 <!-- Page-body end -->

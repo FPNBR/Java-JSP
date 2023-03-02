@@ -21,8 +21,9 @@ public class DAOTelefoneRepository {
     public List<ModelTelefone> modelTelefoneList(Long idUsuarioPai) throws SQLException {
         try {
             List<ModelTelefone> modelTelefones = new ArrayList<>();
-            String sql = "SELECT FROM telefone WHERE usuario_pai_id =?";
+            String sql = "SELECT * FROM telefone WHERE usuario_pai_id =?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1, idUsuarioPai);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {

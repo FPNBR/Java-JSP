@@ -186,8 +186,8 @@ public class ServletUsuarioController extends ServletGenericUtil {
 
             // Mostra os usuários novamente na tabela na página cadastrar/usuários ao fazer outras requisições
             List<ModelLogin> modelLoginView = daoUsuarioRepository.gerarTabelaUsuario(super.getUsuarioLogado(request));
-            request.setAttribute("modelLoginView", modelLoginView);
 
+            request.setAttribute("modelLoginView", modelLoginView);
             request.setAttribute("msg", msg);
             request.setAttribute("modelLogin", modelLogin);
             request.setAttribute("totalPaginas", daoUsuarioRepository.totalPaginas(this.getUsuarioLogado(request)));
