@@ -154,6 +154,9 @@
                                                         <button type="submit" class="btn btn-success waves-effect waves-light">Salvar</button>
                                                         <button type="button" class="btn btn-danger waves-effect waves-light" onclick="deletarUsuario();">Excluir</button>
                                                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalUsuario">Pesquisar Usuário</button>
+                                                        <c:if test="${modelLogin.id} > 0">
+                                                            <a href="<%= request.getContextPath() %>/ServletTelefoneController?idUsuario=${modelLogin.id}" class="btn btn-link">Salvar Telefone</a>
+                                                        </c:if>
                                                     </form>
                                                 </div>
                                             </div>

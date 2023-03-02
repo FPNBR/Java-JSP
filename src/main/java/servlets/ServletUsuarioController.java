@@ -101,7 +101,9 @@ public class ServletUsuarioController extends ServletGenericUtil {
                 if (offset < 0) {
                     offset = 0;
                 }
+                // Mostra os usuários de forma paginada novamente na tabela na página cadastrar/usuários ao fazer outras requisições, obs: que esse método foi sobrecarregado com offset, toda vez que o usuário clicar na segunda página em diante será acionado a ação "paginacao" da servlet, onde no usuario.jsp a lógica da paginação está assim > /ServletUsuarioController?acao=paginacao&pagina="
                 List<ModelLogin> modelLoginView = daoUsuarioRepository.gerarTabelaUsuario(this.getUsuarioLogado(request), offset);
+
                 request.setAttribute("modelLoginView", modelLoginView);
                 request.setAttribute("totalPaginas", daoUsuarioRepository.totalPaginas(this.getUsuarioLogado(request)));
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
@@ -110,6 +112,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
             else {
                 // Mostra os usuários novamente na tabela na página cadastrar/usuários ao fazer outras requisições
                 List<ModelLogin> modelLoginView = daoUsuarioRepository.gerarTabelaUsuario(super.getUsuarioLogado(request));
+
                 request.setAttribute("modelLoginView", modelLoginView);
                 request.setAttribute("totalPaginas", daoUsuarioRepository.totalPaginas(this.getUsuarioLogado(request)));
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
