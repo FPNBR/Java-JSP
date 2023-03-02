@@ -14,7 +14,7 @@ CREATE DATABASE jsp
     CONNECTION LIMIT = -1
     IS_TEMPLATE = False;    IS_TEMPLATE = False;
 
-// Criar tabela
+// Criar tabela usuario
 
 -- Table: public.model_login
 
@@ -24,14 +24,14 @@ CREATE TABLE IF NOT EXISTS public.model_login
 (
     login character varying(256) COLLATE pg_catalog."default" NOT NULL DEFAULT NULL::character varying,
     senha character varying(256) COLLATE pg_catalog."default" NOT NULL DEFAULT NULL::character varying,
-    id integer,
+    id integer NOT NULL DEFAULT nextval('model_login_id_seq'::regclass),
     nome character varying(256) COLLATE pg_catalog."default" NOT NULL DEFAULT NULL::character varying,
     email character varying(256) COLLATE pg_catalog."default" NOT NULL DEFAULT NULL::character varying,
     usuario_admin boolean NOT NULL DEFAULT false,
     usuario_id bigint NOT NULL DEFAULT 1,
     perfil character varying(256) COLLATE pg_catalog."default" NOT NULL DEFAULT NULL::character varying,
     sexo character varying(256) COLLATE pg_catalog."default",
-    foto_usuario text COLLATE pg_catalog."default",
+    foto_usuario character varying COLLATE pg_catalog."default",
     extensao_foto_usuario character varying(10) COLLATE pg_catalog."default",
     cep character varying(256) COLLATE pg_catalog."default",
     logradouro character varying(256) COLLATE pg_catalog."default",
@@ -52,7 +52,35 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public.model_login
     OWNER to postgres;
 
-// Criar sequência
+// Criar tabela telefone
+
+-- Table: public.telefone
+
+-- DROP TABLE IF EXISTS public.telefone;
+
+CREATE TABLE IF NOT EXISTS public.telefone
+(
+    id integer NOT NULL DEFAULT nextval('telefone_id_seq'::regclass),
+    numero character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    usuario_pai_id bigint NOT NULL,
+    usuario_cadastro_id bigint NOT NULL,
+    CONSTRAINT telefone_pk PRIMARY KEY (id),
+    CONSTRAINT usuario_cadastro_fk FOREIGN KEY (usuario_cadastro_id)
+        REFERENCES public.model_login (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT usuario_pai_fk FOREIGN KEY (usuario_pai_id)
+        REFERENCES public.model_login (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.telefone
+    OWNER to postgres;
+
+// Criar sequência id usuario
 
 -- SEQUENCE: public.model_login_id_seq
 
@@ -62,13 +90,23 @@ CREATE SEQUENCE IF NOT EXISTS public.model_login_id_seq
     INCREMENT 1
     START 1
     MINVALUE 1
-    MAXVALUE 2147483647
+    MAXVALUE 9223372036854775807
     CACHE 1
-    OWNED BY model_login.id;
 
-ALTER SEQUENCE public.model_login_id_seq
-    OWNER TO postgres;
+// Criar sequência id telefone
+
+-- SEQUENCE: public.telefone_id_seq
+
+-- DROP SEQUENCE IF EXISTS public.telefone_id_seq;
+
+CREATE SEQUENCE IF NOT EXISTS public.telefone_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
 
 // Adicionar sequência na coluna id
 
 ALTER TABLE model_login ALTER COLUMN id SET DEFAULT nextval('model_login_id_seq')
+ALTER TABLE telefone ALTER COLUMN id SET DEFAULT nextval('telefone_id_seq')
