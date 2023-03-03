@@ -21,7 +21,7 @@ public class DAOUsuarioRepository {
 
         try {
             if (usuario.idExiste()) { // Grava um novo usuário se o boolean for verdadeiro
-                String sql = "INSERT INTO model_login (login, nome, email, senha, usuario_id, perfil, sexo, cep, logradouro, bairro, localidade, uf, numero_casa, data_nascimento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO model_login (login, nome, email, senha, usuario_id, perfil, sexo, cep, logradouro, bairro, localidade, uf, numero_casa, data_nascimento, renda_mensal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(1, usuario.getLogin());
                 preparedStatement.setString(2, usuario.getNome());
@@ -37,6 +37,7 @@ public class DAOUsuarioRepository {
                 preparedStatement.setString(12, usuario.getUf());
                 preparedStatement.setString(13, usuario.getNumeroCasa());
                 preparedStatement.setDate(14, usuario.getDataNascimento());
+                preparedStatement.setDouble(15, usuario.getRendaMensal());
                 preparedStatement.execute();
                 connection.commit();
 
@@ -51,7 +52,7 @@ public class DAOUsuarioRepository {
                 }
 
             } else { // Atualiza o usuário se o boolean for false
-                String sql = "UPDATE model_login SET login=?, nome=?, email=?, senha=?, perfil=?, sexo=?, cep=?, logradouro=?, bairro=?, localidade=?, uf=?, numero_casa=?, data_nascimento=? WHERE id = " + usuario.getId() + ";";
+                String sql = "UPDATE model_login SET login=?, nome=?, email=?, senha=?, perfil=?, sexo=?, cep=?, logradouro=?, bairro=?, localidade=?, uf=?, numero_casa=?, data_nascimento=?, renda_mensal=? WHERE id = " + usuario.getId() + ";";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(1, usuario.getLogin());
                 preparedStatement.setString(2, usuario.getNome());
@@ -66,6 +67,7 @@ public class DAOUsuarioRepository {
                 preparedStatement.setString(11, usuario.getUf());
                 preparedStatement.setString(12, usuario.getNumeroCasa());
                 preparedStatement.setDate(13, usuario.getDataNascimento());
+                preparedStatement.setDouble(14, usuario.getRendaMensal());
                 preparedStatement.executeUpdate();
                 connection.commit();
 
@@ -263,6 +265,8 @@ public class DAOUsuarioRepository {
                 modelLogin.setLocalidade(resultSet.getString("localidade"));
                 modelLogin.setUf(resultSet.getString("uf"));
                 modelLogin.setNumeroCasa(resultSet.getString("numero_casa"));
+                modelLogin.setDataNascimento(resultSet.getDate("data_nascimento"));
+                modelLogin.setRendaMensal(resultSet.getDouble("renda_mensal"));
             }
             return modelLogin;
 
@@ -295,6 +299,8 @@ public class DAOUsuarioRepository {
                 modelLogin.setLocalidade(resultSet.getString("localidade"));
                 modelLogin.setUf(resultSet.getString("uf"));
                 modelLogin.setNumeroCasa(resultSet.getString("numero_casa"));
+                modelLogin.setDataNascimento(resultSet.getDate("data_nascimento"));
+                modelLogin.setRendaMensal(resultSet.getDouble("renda_mensal"));
             }
             return modelLogin;
 
@@ -327,6 +333,8 @@ public class DAOUsuarioRepository {
                 modelLogin.setLocalidade(resultSet.getString("localidade"));
                 modelLogin.setUf(resultSet.getString("uf"));
                 modelLogin.setNumeroCasa(resultSet.getString("numero_casa"));
+                modelLogin.setDataNascimento(resultSet.getDate("data_nascimento"));
+                modelLogin.setRendaMensal(resultSet.getDouble("renda_mensal"));
             }
             return modelLogin;
 
@@ -362,6 +370,8 @@ public class DAOUsuarioRepository {
                 modelLogin.setLocalidade(resultSet.getString("localidade"));
                 modelLogin.setUf(resultSet.getString("uf"));
                 modelLogin.setNumeroCasa(resultSet.getString("numero_casa"));
+                modelLogin.setDataNascimento(resultSet.getDate("data_nascimento"));
+                modelLogin.setRendaMensal(resultSet.getDouble("renda_mensal"));
             }
             return modelLogin;
 
@@ -398,6 +408,8 @@ public class DAOUsuarioRepository {
                 modelLogin.setLocalidade(resultSet.getString("localidade"));
                 modelLogin.setUf(resultSet.getString("uf"));
                 modelLogin.setNumeroCasa(resultSet.getString("numero_casa"));
+                modelLogin.setDataNascimento(resultSet.getDate("data_nascimento"));
+                modelLogin.setRendaMensal(resultSet.getDouble("renda_mensal"));
             }
             return modelLogin;
 

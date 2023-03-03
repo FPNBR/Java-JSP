@@ -75,6 +75,11 @@
                                                             <label class="float-label">Data de nascimento:</label>
                                                         </div>
                                                         <div class="form-group form-default form-static-label">
+                                                            <input type="text" name="renda_mensal" id="renda_mensal" class="form-control" required="required" autocomplete="off" value="${modelLogin.rendaMensal}">
+                                                            <span class="form-bar"></span>
+                                                            <label class="float-label">Renda mensal:</label>
+                                                        </div>
+                                                        <div class="form-group form-default form-static-label">
                                                             <input type="email" name="email" id="email" class="form-control" required="required" autocomplete="off" value="${modelLogin.email}">
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">Email: (exemplo@gmail.com)</label>
@@ -257,8 +262,9 @@
 
 <script type="text/javascript">
 
-    $( function() {
+    $("#renda_mensal").maskMoney({showSymbol:true, symbol:"R$", decimal:",", thousands:"."});
 
+    $( function() {
         $("#data_nascimento").datepicker({
             dateFormat: 'dd/mm/yy',
             dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],

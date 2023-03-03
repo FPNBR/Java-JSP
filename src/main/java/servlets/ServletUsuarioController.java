@@ -149,6 +149,9 @@ public class ServletUsuarioController extends ServletGenericUtil {
             String uf = request.getParameter("uf");
             String numeroCasa = request.getParameter("numero_casa");
             String dataNascimento = request.getParameter("data_nascimento");
+            String rendaMensal = request.getParameter("renda_mensal");
+
+                rendaMensal = rendaMensal.replaceAll("^R\\$|\\.", "").replace(",", ".");
 
             ModelLogin modelLogin = new ModelLogin();
             modelLogin.setId(id != null && !id.isEmpty() ? Long.parseLong(id) : null);
@@ -165,6 +168,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
             modelLogin.setUf(uf);
             modelLogin.setNumeroCasa(numeroCasa);
             modelLogin.setDataNascimento(new Date(new SimpleDateFormat("dd/mm/yyyy").parse(dataNascimento).getTime()));
+            modelLogin.setRendaMensal(Double.valueOf(rendaMensal));
 
             if (ServletFileUpload.isMultipartContent(request)) {
                 Part part = request.getPart("arquivoFoto"); // Pega a foto da tela

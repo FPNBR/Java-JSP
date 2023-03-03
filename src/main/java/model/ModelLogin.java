@@ -22,6 +22,7 @@ public class ModelLogin implements Serializable {
     private String uf;
     private String numeroCasa;
     private Date dataNascimento;
+    private Double rendaMensal;
 
 
     public boolean idExiste() { // Método para verificar se o usuário já possui um id ou não
@@ -167,5 +168,13 @@ public class ModelLogin implements Serializable {
 
     public void setDataNascimento(Date dataNascimento) {
         this.dataNascimento = dataNascimento;
+    }
+
+    public Double getRendaMensal() {
+        return rendaMensal;
+    }
+
+    public void setRendaMensal(Double rendaMensal) {
+        this.rendaMensal = rendaMensal;
     }
 }
