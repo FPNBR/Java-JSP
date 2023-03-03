@@ -11,6 +11,8 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 
@@ -146,6 +148,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
             String localidade = request.getParameter("localidade");
             String uf = request.getParameter("uf");
             String numeroCasa = request.getParameter("numero_casa");
+            String dataNascimento = request.getParameter("data_nascimento");
 
             ModelLogin modelLogin = new ModelLogin();
             modelLogin.setId(id != null && !id.isEmpty() ? Long.parseLong(id) : null);
@@ -161,6 +164,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
             modelLogin.setLocalidade(localidade);
             modelLogin.setUf(uf);
             modelLogin.setNumeroCasa(numeroCasa);
+            modelLogin.setDataNascimento(new Date(new SimpleDateFormat("dd/mm/yyyy").parse(dataNascimento).getTime()));
 
             if (ServletFileUpload.isMultipartContent(request)) {
                 Part part = request.getPart("arquivoFoto"); // Pega a foto da tela

@@ -21,7 +21,7 @@ public class DAOUsuarioRepository {
 
         try {
             if (usuario.idExiste()) { // Grava um novo usuário se o boolean for verdadeiro
-                String sql = "INSERT INTO model_login (login, nome, email, senha, usuario_id, perfil, sexo, cep, logradouro, bairro, localidade, uf, numero_casa) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO model_login (login, nome, email, senha, usuario_id, perfil, sexo, cep, logradouro, bairro, localidade, uf, numero_casa, data_nascimento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(1, usuario.getLogin());
                 preparedStatement.setString(2, usuario.getNome());
@@ -36,6 +36,7 @@ public class DAOUsuarioRepository {
                 preparedStatement.setString(11, usuario.getLocalidade());
                 preparedStatement.setString(12, usuario.getUf());
                 preparedStatement.setString(13, usuario.getNumeroCasa());
+                preparedStatement.setDate(14, usuario.getDataNascimento());
                 preparedStatement.execute();
                 connection.commit();
 
@@ -50,7 +51,7 @@ public class DAOUsuarioRepository {
                 }
 
             } else { // Atualiza o usuário se o boolean for false
-                String sql = "UPDATE model_login SET login=?, nome=?, email=?, senha=?, perfil=?, sexo=?, cep=?, logradouro=?, bairro=?, localidade=?, uf=?, numero_casa=? WHERE id = " + usuario.getId() + ";";
+                String sql = "UPDATE model_login SET login=?, nome=?, email=?, senha=?, perfil=?, sexo=?, cep=?, logradouro=?, bairro=?, localidade=?, uf=?, numero_casa=?, data_nascimento=? WHERE id = " + usuario.getId() + ";";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(1, usuario.getLogin());
                 preparedStatement.setString(2, usuario.getNome());
@@ -64,6 +65,7 @@ public class DAOUsuarioRepository {
                 preparedStatement.setString(10, usuario.getLocalidade());
                 preparedStatement.setString(11, usuario.getUf());
                 preparedStatement.setString(12, usuario.getNumeroCasa());
+                preparedStatement.setDate(13, usuario.getDataNascimento());
                 preparedStatement.executeUpdate();
                 connection.commit();
 

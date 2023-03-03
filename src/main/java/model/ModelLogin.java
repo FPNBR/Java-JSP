@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class ModelLogin implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -20,6 +21,7 @@ public class ModelLogin implements Serializable {
     private String localidade;
     private String uf;
     private String numeroCasa;
+    private Date dataNascimento;
 
 
     public boolean idExiste() { // Método para verificar se o usuário já possui um id ou não
@@ -157,5 +159,13 @@ public class ModelLogin implements Serializable {
 
     public void setNumeroCasa(String numeroCasa) {
         this.numeroCasa = numeroCasa;
+    }
+
+    public Date getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
 }
