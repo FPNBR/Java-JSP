@@ -264,6 +264,19 @@
 
     $("#renda_mensal").maskMoney({showSymbol:true, symbol:"R$", decimal:",", thousands:"."});
 
+    const formatter = new Intl.NumberFormat('pt-BR', {
+        currency : 'BRL',
+        minimumFractionDigits : 2
+    })
+
+    $("#renda_mensal").val(formatter.format($("#renda_mensal").val()))
+    $("#renda_mensal").focus();
+
+    var data_nascimento = $("#data_nascimento").val();
+    var dateFormat = new Date(data_nascimento);
+    $("#data_nascimento").val(dateFormat.toLocaleDateString('pt-BR', {timeZone : 'UTC'}));
+    $("#nomeUsuario").focus();
+
     $( function() {
         $("#data_nascimento").datepicker({
             dateFormat: 'dd/mm/yy',
@@ -273,9 +286,11 @@
             monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
             monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
             nextText: 'Próximo',
-            prevText: 'Anterior'
+            prevText: 'Anterior',
+            changeYear: true
         });
-    } );
+    });
+
 
     $("#numero_casa").keypress(function (event) {
         return /\d/.test(String.fromCharCode(event.keyCode));

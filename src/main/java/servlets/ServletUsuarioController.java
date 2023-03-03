@@ -151,7 +151,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
             String dataNascimento = request.getParameter("data_nascimento");
             String rendaMensal = request.getParameter("renda_mensal");
 
-                rendaMensal = rendaMensal.replaceAll("^R\\$|\\.", "").replace(",", ".");
+            rendaMensal = rendaMensal.replaceAll("^R\\$|\\.", "").replace(",", ".");
 
             ModelLogin modelLogin = new ModelLogin();
             modelLogin.setId(id != null && !id.isEmpty() ? Long.parseLong(id) : null);
@@ -167,7 +167,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
             modelLogin.setLocalidade(localidade);
             modelLogin.setUf(uf);
             modelLogin.setNumeroCasa(numeroCasa);
-            modelLogin.setDataNascimento(new Date(new SimpleDateFormat("dd/mm/yyyy").parse(dataNascimento).getTime()));
+            modelLogin.setDataNascimento(Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataNascimento))));
             modelLogin.setRendaMensal(Double.valueOf(rendaMensal));
 
             if (ServletFileUpload.isMultipartContent(request)) {
