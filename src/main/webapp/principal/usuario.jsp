@@ -252,6 +252,14 @@
 
 <script type="text/javascript">
 
+    $("#numero_casa").keypress(function (event) {
+        return /\d/.test(String.fromCharCode(event.keyCode));
+    });
+    
+    $("#cep").keypress(function (event) {
+        return /\d/.test(String.fromCharCode(event.keyCode));
+    });
+
     function pesquisaCEP() {
         var cep = $("#cep").val();
 
