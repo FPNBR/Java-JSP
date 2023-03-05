@@ -44,7 +44,7 @@ public class DAOTelefoneRepository {
         }
     }
 
-    public void salvarTelefone (ModelTelefone modelTelefone) throws SQLException {
+    public void salvarTelefone(ModelTelefone modelTelefone) throws SQLException {
         try {
             String sql = "INSERT INTO telefone(numero, usuario_pai_id, usuario_cadastro_id) VALUES (?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -61,7 +61,7 @@ public class DAOTelefoneRepository {
         }
     }
 
-    public void deletarTelefone (Long id) throws SQLException {
+    public void deletarTelefone(Long id) throws SQLException {
         try {
             String sql = "DELETE FROM telefone WHERE id =?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -73,6 +73,24 @@ public class DAOTelefoneRepository {
             e.printStackTrace();
             connection.rollback();
             throw new SQLException("Erro ao deletar telefone" + e.getMessage());
+        }
+    }
+
+    public boolean telefoneExiste(String telefone, Long idUsuario) throws SQLException {
+        try {
+            String sql = "SELECT COUNT(1) > 0 AS existe FROM telefone WHERE usuario_pai_id =? AND numero =?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1, idUsuario);
+            preparedStatement.setString(2, telefone);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getBoolean("existe");
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            connection.rollback();
+            throw new SQLException("Erro ao carregar telefones: " + e.getMessage());
         }
     }
 }
