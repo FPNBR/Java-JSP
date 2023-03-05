@@ -2,6 +2,7 @@ package dao;
 
 import connection.SingleConnection;
 import model.ModelLogin;
+import model.ModelTelefone;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -124,6 +125,7 @@ public class DAOUsuarioRepository {
                 modelLogin.setEmail(resultSet.getString("email"));
                 modelLogin.setPerfil(resultSet.getString("perfil"));
                 modelLogin.setSexo(resultSet.getString("sexo"));
+                modelLogin.setModelTelefones(this.gerarTabelaTelefone(modelLogin.getId()));
                 modelLoginList.add(modelLogin);
             }
             return modelLoginList;
@@ -473,6 +475,32 @@ public class DAOUsuarioRepository {
         }catch (Exception e) {
             e.printStackTrace();
             connection.rollback();
+        }
+    }
+
+    public List<ModelTelefone> gerarTabelaTelefone(Long idUsuarioPai) throws SQLException {
+        try {
+            List<ModelTelefone> modelTelefones = new ArrayList<>();
+            String sql = "SELECT * FROM telefone WHERE usuario_pai_id =?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1, idUsuarioPai);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ModelTelefone modelTelefone = new ModelTelefone();
+                modelTelefone.setId(resultSet.getLong("id"));
+                modelTelefone.setNumero(resultSet.getString("numero"));
+                modelTelefone.setUsuarioCadastroId(this.consultarUsuarioPorId(resultSet.getLong("usuario_cadastro_id")));
+                modelTelefone.setUsuarioPaiId(this.consultarUsuarioPorId(resultSet.getLong("usuario_pai_id")));
+
+                modelTelefones.add(modelTelefone);
+            }
+            return modelTelefones;
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            connection.rollback();
+            throw new SQLException("Erro ao carregar lista de telefones: " + e.getMessage());
         }
     }
 }

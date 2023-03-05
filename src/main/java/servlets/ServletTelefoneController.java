@@ -30,7 +30,7 @@ public class ServletTelefoneController extends ServletGenericUtil {
                 String idPai = request.getParameter("idPai");
 
                 ModelLogin modelLogin = daoUsuarioRepository.consultarUsuarioPorId(Long.parseLong(idPai));
-                List<ModelTelefone> modelTelefones = daoTelefoneRepository.modelTelefoneList(modelLogin.getId());
+                List<ModelTelefone> modelTelefones = daoTelefoneRepository.gerarTabelaTelefone(modelLogin.getId());
 
                 request.setAttribute("msg", "Telefone exclúido!");
                 request.setAttribute("modelTelefones", modelTelefones);
@@ -44,7 +44,7 @@ public class ServletTelefoneController extends ServletGenericUtil {
 
             if (idUsuario != null && !idUsuario.isEmpty()) {
                 ModelLogin modelLogin = daoUsuarioRepository.consultarUsuarioPorId(Long.parseLong(idUsuario));
-                List<ModelTelefone> modelTelefones = daoTelefoneRepository.modelTelefoneList(modelLogin.getId());
+                List<ModelTelefone> modelTelefones = daoTelefoneRepository.gerarTabelaTelefone(modelLogin.getId());
 
                 request.setAttribute("modelTelefones", modelTelefones);
                 request.setAttribute("modelLogin", modelLogin);
@@ -91,7 +91,7 @@ public class ServletTelefoneController extends ServletGenericUtil {
             }
 
             ModelLogin modelLogin = daoUsuarioRepository.consultarUsuarioPorId(Long.parseLong(usuarioPaiId));
-            List<ModelTelefone> modelTelefones = daoTelefoneRepository.modelTelefoneList(Long.parseLong(usuarioPaiId));
+            List<ModelTelefone> modelTelefones = daoTelefoneRepository.gerarTabelaTelefone(Long.parseLong(usuarioPaiId));
 
             request.setAttribute("modelLogin", modelLogin);
             request.setAttribute("modelTelefones", modelTelefones);

@@ -2,6 +2,8 @@ package model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ModelLogin implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -23,7 +25,7 @@ public class ModelLogin implements Serializable {
     private String numeroCasa;
     private Date dataNascimento;
     private Double rendaMensal;
-
+    private List<ModelTelefone> modelTelefones = new ArrayList<>();
 
     public boolean idExiste() { // Método para verificar se o usuário já possui um id ou não
         if (this.id == null) {
@@ -176,5 +178,13 @@ public class ModelLogin implements Serializable {
 
     public void setRendaMensal(Double rendaMensal) {
         this.rendaMensal = rendaMensal;
+    }
+
+    public List<ModelTelefone> getModelTelefones() {
+        return modelTelefones;
+    }
+
+    public void setModelTelefones(List<ModelTelefone> modelTelefones) {
+        this.modelTelefones = modelTelefones;
     }
 }

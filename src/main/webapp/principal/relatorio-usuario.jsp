@@ -63,14 +63,19 @@
                                                             <thead class="thead-dark">
                                                             <tr>
                                                                 <th scope="col">ID</th>
-                                                                <th scope="col">Nome</th>
+                                                                <th scope="col">Nome/Números</th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
                                                             <c:forEach items="${listaRelatorioUsuario}" var="lru">
                                                                 <tr>
                                                                     <td><c:out value="${lru.id}"></c:out></td>
-                                                                    <td><c:out value="${lru.nome}"></c:out></td>
+                                                                    <td>
+                                                                        <h4><span class="badge badge-primary"><c:out value="${lru.nome}"></c:out></span></h4>
+                                                                        <c:forEach items="${lru.modelTelefones}" var="telefones">
+                                                                            <span class="badge badge-secondary"><c:out value="${telefones.numero}"></c:out></span><br>
+                                                                        </c:forEach>
+                                                                    </td>
                                                                 </tr>
                                                             </c:forEach>
                                                             </tbody>
