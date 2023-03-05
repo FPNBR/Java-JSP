@@ -4,10 +4,8 @@ import connection.SingleConnection;
 import model.ModelLogin;
 import model.ModelTelefone;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,6 +113,36 @@ public class DAOUsuarioRepository {
             List<ModelLogin> modelLoginList = new ArrayList<>();
             String sql = "SELECT * FROM model_login WHERE usuario_admin IS FALSE and usuario_id = " + usuarioLogado;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) { // Percorrer as linhas de resultado do SQL
+                ModelLogin modelLogin = new ModelLogin();
+                modelLogin.setId(resultSet.getLong("id"));
+                modelLogin.setLogin(resultSet.getString("login"));
+                modelLogin.setNome(resultSet.getString("nome"));
+                modelLogin.setEmail(resultSet.getString("email"));
+                modelLogin.setPerfil(resultSet.getString("perfil"));
+                modelLogin.setSexo(resultSet.getString("sexo"));
+                modelLogin.setModelTelefones(this.gerarTabelaTelefone(modelLogin.getId()));
+                modelLoginList.add(modelLogin);
+            }
+            return modelLoginList;
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            connection.rollback();
+            throw new SQLException("Erro ao consultar usuário: " + e.getMessage());
+        }
+    }
+
+    public List<ModelLogin> gerarRelatorioUsuario(Long usuarioLogado, String dataInicial, String dataFinal) throws SQLException {
+        try {
+            List<ModelLogin> modelLoginList = new ArrayList<>();
+            String sql = "SELECT * FROM model_login WHERE usuario_admin IS FALSE and usuario_id = " + usuarioLogado + " AND data_nascimento >= ? AND data_nascimento <= ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setDate(1, Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataInicial))));
+            preparedStatement.setDate(2, Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataFinal))));
+
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) { // Percorrer as linhas de resultado do SQL

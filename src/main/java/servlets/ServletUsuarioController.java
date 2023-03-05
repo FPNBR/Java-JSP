@@ -117,6 +117,9 @@ public class ServletUsuarioController extends ServletGenericUtil {
 
                 if (dataInicial == null || dataInicial.isEmpty() && dataFinal == null || dataFinal.isEmpty()) {
                     request.setAttribute("listaRelatorioUsuario", daoUsuarioRepository.gerarRelatorioUsuario(super.getUsuarioLogado(request)));
+
+                }else {
+                    request.setAttribute("listaRelatorioUsuario", daoUsuarioRepository.gerarRelatorioUsuario(super.getUsuarioLogado(request), dataInicial, dataFinal));
                 }
 
                 request.setAttribute("dataInicial", dataInicial);
@@ -132,7 +135,6 @@ public class ServletUsuarioController extends ServletGenericUtil {
                 request.setAttribute("totalPaginas", daoUsuarioRepository.totalPaginas(this.getUsuarioLogado(request)));
                 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
             }
-
 
         }catch (Exception e) {
             e.printStackTrace();
