@@ -109,6 +109,32 @@ public class DAOUsuarioRepository {
         }
     }
 
+    public List<ModelLogin> gerarRelatorioUsuario(Long usuarioLogado) throws SQLException {
+        try {
+            List<ModelLogin> modelLoginList = new ArrayList<>();
+            String sql = "SELECT * FROM model_login WHERE usuario_admin IS FALSE and usuario_id = " + usuarioLogado;
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) { // Percorrer as linhas de resultado do SQL
+                ModelLogin modelLogin = new ModelLogin();
+                modelLogin.setId(resultSet.getLong("id"));
+                modelLogin.setLogin(resultSet.getString("login"));
+                modelLogin.setNome(resultSet.getString("nome"));
+                modelLogin.setEmail(resultSet.getString("email"));
+                modelLogin.setPerfil(resultSet.getString("perfil"));
+                modelLogin.setSexo(resultSet.getString("sexo"));
+                modelLoginList.add(modelLogin);
+            }
+            return modelLoginList;
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            connection.rollback();
+            throw new SQLException("Erro ao consultar usuário: " + e.getMessage());
+        }
+    }
+
     public List<ModelLogin> gerarTabelaUsuario(Long usuarioLogado) throws SQLException {
         try {
             List<ModelLogin> modelLoginList = new ArrayList<>();

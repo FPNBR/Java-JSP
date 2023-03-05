@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,6 +58,24 @@
                                                             </div>
                                                         </div>
                                                     </form>
+                                                    <div style="height: 300px; overflow: scroll;">
+                                                        <table class="table" id="listaRelatorioUsuario">
+                                                            <thead class="thead-dark">
+                                                            <tr>
+                                                                <th scope="col">ID</th>
+                                                                <th scope="col">Nome</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <c:forEach items="${listaRelatorioUsuario}" var="lru">
+                                                                <tr>
+                                                                    <td><c:out value="${lru.id}"></c:out></td>
+                                                                    <td><c:out value="${lru.nome}"></c:out></td>
+                                                                </tr>
+                                                            </c:forEach>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

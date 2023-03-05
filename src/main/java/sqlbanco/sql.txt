@@ -39,6 +39,8 @@ CREATE TABLE IF NOT EXISTS public.model_login
     localidade character varying(256) COLLATE pg_catalog."default",
     uf character varying(256) COLLATE pg_catalog."default",
     numero_casa character varying(256) COLLATE pg_catalog."default",
+    data_nascimento date NOT NULL,
+    renda_mensal numeric(25,2),
     CONSTRAINT model_login_pkey PRIMARY KEY (id),
     CONSTRAINT login_unique UNIQUE (login),
     CONSTRAINT usuario_fk FOREIGN KEY (usuario_id)
