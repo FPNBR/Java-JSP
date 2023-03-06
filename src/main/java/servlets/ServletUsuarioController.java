@@ -11,9 +11,11 @@ import util.ReportUtil;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
+import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -135,13 +137,16 @@ public class ServletUsuarioController extends ServletGenericUtil {
                 List<ModelLogin> modelLogins = null;
 
                 if (dataInicial == null || dataInicial.isEmpty() && dataFinal == null || dataFinal.isEmpty()) {
-                    modelLogins = daoUsuarioRepository.gerarTabelaUsuario(super.getUsuarioLogado(request));
+                    modelLogins = daoUsuarioRepository.gerarRelatorioUsuario(super.getUsuarioLogado(request));
 
                 }else {
                     modelLogins = daoUsuarioRepository.gerarRelatorioUsuario(super.getUsuarioLogado(request), dataInicial, dataFinal);
                 }
 
-                byte[] relatorio = new ReportUtil().gerarRelatorioPDF(modelLogins, "relatorio-usuario-jsp", request.getServletContext());
+                HashMap<String, Object> params = new HashMap<>();
+                params.put("PARAM_SUB_REPORT", request.getServletContext().getRealPath("report") + File.separator);
+
+                byte[] relatorio = new ReportUtil().gerarRelatorioPDF(modelLogins, "relatorio-usuario-jsp", params, request.getServletContext());
 
                 response.setHeader("Content-Disposition", "attachment;filename=" + "relatorio-usuario" + ".pdf");
                 response.getOutputStream().write(relatorio);

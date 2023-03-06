@@ -25,4 +25,18 @@ public class ReportUtil implements Serializable {
             throw new Exception("Erro ao exportar o arquivo Jasper para PDF " + e.getMessage());
         }
     }
+
+    public byte[] gerarRelatorioPDF(List list, String nomeRelatorio, HashMap<String, Object> params, ServletContext servletContext) throws Exception {
+        try {
+            JRBeanCollectionDataSource jrBeanCollectionDataSource = new JRBeanCollectionDataSource(list); // Cria a lista de dados que vem do SQL quando a consulta é feita
+            String arquivoJasperCompilado = servletContext.getRealPath("report") + File.separator + nomeRelatorio + ".jasper";
+            JasperPrint jasperPrint = JasperFillManager.fillReport(arquivoJasperCompilado, params, jrBeanCollectionDataSource);
+
+            return JasperExportManager.exportReportToPdf(jasperPrint);
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("Erro ao exportar o arquivo Jasper para PDF " + e.getMessage());
+        }
+    }
 }

@@ -2,6 +2,7 @@
 <!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio-usuario-jsp" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="89f05e27-5796-44c6-8aae-892f43d3ee79">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="PARAM_SUB_REPORT" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -62,6 +63,28 @@
 	<field name="email" class="java.lang.String">
 		<fieldDescription><![CDATA[email]]></fieldDescription>
 	</field>
+	<group name="grupo_usuario">
+		<groupExpression><![CDATA[$F{nome}]]></groupExpression>
+		<groupHeader>
+			<band height="30">
+				<textField>
+					<reportElement x="0" y="0" width="230" height="30" uuid="461ba745-23e7-438f-af3e-dfe5dbc03c13">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0648c5b7-83ad-4807-96b1-7a74d838ac19"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+				</textField>
+				<textField pattern="d/M/yyyy" isBlankWhenNull="true">
+					<reportElement x="380" y="0" width="170" height="30" uuid="e22f77b4-1da3-405b-b09e-7e15a7e1d65f">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="621033aa-95bd-467a-b6a2-aad3c6daa0f9"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{dataNascimento}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="0" y="18" width="550" height="1" uuid="63ea8b63-821a-4079-ac77-c9d467278076"/>
+				</line>
+			</band>
+		</groupHeader>
+	</group>
 	<title>
 		<band height="79" splitType="Stretch">
 			<staticText>
@@ -71,13 +94,6 @@
 				</textElement>
 				<text><![CDATA[Relatório de Usuário]]></text>
 			</staticText>
-			<textField pattern="d/M/yyyy">
-				<reportElement x="430" y="-1" width="144" height="20" uuid="7612b14d-cb4f-4817-ac03-8a074a816cf5"/>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA["PDF Gerado em: " + new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new java.util.Date())]]></textFieldExpression>
-			</textField>
 		</band>
 	</title>
 	<columnHeader>
@@ -100,25 +116,24 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="30" splitType="Stretch">
-			<textField>
-				<reportElement x="0" y="0" width="230" height="30" uuid="461ba745-23e7-438f-af3e-dfe5dbc03c13">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0648c5b7-83ad-4807-96b1-7a74d838ac19"/>
-				</reportElement>
-				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
-			</textField>
-			<textField pattern="d/M/yyyy" isBlankWhenNull="true">
-				<reportElement x="380" y="0" width="170" height="30" uuid="e22f77b4-1da3-405b-b09e-7e15a7e1d65f">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="621033aa-95bd-467a-b6a2-aad3c6daa0f9"/>
-				</reportElement>
-				<textFieldExpression><![CDATA[$F{dataNascimento}]]></textFieldExpression>
-			</textField>
-			<line>
-				<reportElement x="0" y="23" width="550" height="1" uuid="63ea8b63-821a-4079-ac77-c9d467278076"/>
-			</line>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<subreport>
+				<reportElement x="0" y="0" width="550" height="20" uuid="4e8d4da2-be4c-4a43-8d2e-ddf8aaaecdff"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource( $F{modelTelefones})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{PARAM_SUB_REPORT} + "sub_relatorio_usuario.jasper"]]></subreportExpression>
+			</subreport>
 		</band>
 	</detail>
 	<summary>
-		<band height="60"/>
+		<band height="65">
+			<textField pattern="d/M/yyyy">
+				<reportElement x="410" y="45" width="140" height="20" uuid="7612b14d-cb4f-4817-ac03-8a074a816cf5"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["PDF Gerado em: " + new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+		</band>
 	</summary>
 </jasperReport>
