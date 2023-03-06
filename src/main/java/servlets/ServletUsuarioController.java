@@ -18,7 +18,6 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 
-
 @MultipartConfig
 @WebServlet(urlPatterns = {"/ServletUsuarioController"})
 public class ServletUsuarioController extends ServletGenericUtil {
@@ -130,7 +129,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
                 request.getRequestDispatcher("principal/relatorio-usuario.jsp").forward(request, response);
             }
 
-            else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("imprimirRelatorioUsuarioPDF")) {
+            else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("imprimirRelatorioUsuarioPDF") || acao.equalsIgnoreCase("imprimirRelatorioUsuarioExcel")) {
                 String dataInicial = request.getParameter("dataInicial");
                 String dataFinal = request.getParameter("dataFinal");
 
@@ -146,9 +145,22 @@ public class ServletUsuarioController extends ServletGenericUtil {
                 HashMap<String, Object> params = new HashMap<>();
                 params.put("PARAM_SUB_REPORT", request.getServletContext().getRealPath("report") + File.separator);
 
-                byte[] relatorio = new ReportUtil().gerarRelatorioPDF(modelLogins, "relatorio-usuario-jsp", params, request.getServletContext());
+                byte[] relatorio = null;
 
-                response.setHeader("Content-Disposition", "attachment;filename=" + "relatorio-usuario" + ".pdf");
+                String extensao = "";
+
+                if (acao.equalsIgnoreCase("imprimirRelatorioUsuarioPDF")) {
+                    relatorio = new ReportUtil().gerarRelatorioPDF(modelLogins, "relatorio-usuario-jsp", params, request.getServletContext());
+                    extensao = "pdf";
+
+                }else {
+                    if (acao.equalsIgnoreCase("imprimirRelatorioUsuarioExcel")) {
+                        relatorio = new ReportUtil().gerarRelatorioExcel(modelLogins, "relatorio-usuario-jsp", params, request.getServletContext());
+                        extensao = "xls";
+                    }
+
+                }
+                response.setHeader("Content-Disposition", "attachment;filename=" + "relatorio-usuario." + extensao);
                 response.getOutputStream().write(relatorio);
             }
 
