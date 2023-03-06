@@ -180,6 +180,7 @@ public class DAOUsuarioRepository {
                 modelLogin.setEmail(resultSet.getString("email"));
                 modelLogin.setPerfil(resultSet.getString("perfil"));
                 modelLogin.setSexo(resultSet.getString("sexo"));
+                modelLogin.setDataNascimento(resultSet.getDate("data_nascimento"));
                 modelLoginList.add(modelLogin);
             }
             return modelLoginList;

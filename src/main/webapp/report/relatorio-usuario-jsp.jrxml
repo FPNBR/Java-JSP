@@ -71,10 +71,20 @@
 				</textElement>
 				<text><![CDATA[Relatório de Usuário]]></text>
 			</staticText>
+			<textField pattern="d/M/yyyy">
+				<reportElement x="430" y="-1" width="144" height="20" uuid="7612b14d-cb4f-4817-ac03-8a074a816cf5"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["PDF Gerado em: " + new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<columnHeader>
 		<band height="30" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="550" height="20" backcolor="#969696" uuid="e38c230b-df7a-4be1-97fe-2c34b7cb81b0"/>
+			</frame>
 			<staticText>
 				<reportElement x="0" y="0" width="80" height="30" uuid="89c70c5c-3449-4c7b-abc7-c37bd161ac52">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0648c5b7-83ad-4807-96b1-7a74d838ac19"/>
@@ -90,22 +100,25 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="31" splitType="Stretch">
+		<band height="30" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="230" height="30" uuid="461ba745-23e7-438f-af3e-dfe5dbc03c13">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0648c5b7-83ad-4807-96b1-7a74d838ac19"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="d/M/yyyy" isBlankWhenNull="true">
 				<reportElement x="380" y="0" width="170" height="30" uuid="e22f77b4-1da3-405b-b09e-7e15a7e1d65f">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="621033aa-95bd-467a-b6a2-aad3c6daa0f9"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{dataNascimento}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="0" y="30" width="550" height="1" uuid="63ea8b63-821a-4079-ac77-c9d467278076"/>
+				<reportElement x="0" y="23" width="550" height="1" uuid="63ea8b63-821a-4079-ac77-c9d467278076"/>
 			</line>
 		</band>
 	</detail>
+	<summary>
+		<band height="60"/>
+	</summary>
 </jasperReport>

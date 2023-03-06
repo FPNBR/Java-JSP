@@ -40,7 +40,7 @@
                                                 <div class="card-block">
                                                     <h4 class="sub-title">Relatório de Usuário</h4>
                                                     <form class="form-material" action="<%=request.getContextPath()%>/ServletUsuarioController?acao=imprimirRelatorioUsuario" method="get" id="formUsuario">
-                                                        <input type="hidden" name="acao" value="imprimirRelatorioUsuario">
+                                                        <input type="hidden" id="acaoImprimirRelatorioTipo" name="acao" value="imprimirRelatorioUsuario">
 
                                                         <div class="form-row align-items-center">
                                                             <div class="col-auto">
@@ -54,7 +54,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-auto">
-                                                                <button type="submit" class="btn btn-primary mb-2">Imprimir Relatório</button>
+                                                                <button type="button" onclick="imprimirHTML();" class="btn btn-primary">Gerar tabela</button>
+                                                                <button type="button" onclick="imprimirPDF();" class="btn btn-danger">Imprimir PDF</button>
                                                             </div>
                                                         </div>
                                                     </form>
@@ -100,6 +101,16 @@
 <jsp:include page="javascriptfile.jsp"></jsp:include>
 
 <script type="text/javascript">
+
+    function imprimirHTML() {
+        document.getElementById("acaoImprimirRelatorioTipo").value = 'imprimirRelatorioUsuario';
+        $("#formUsuario").submit();
+    }
+
+    function imprimirPDF() {
+        document.getElementById("acaoImprimirRelatorioTipo").value = 'imprimirRelatorioUsuarioPDF';
+        $("#formUsuario").submit();
+    }
 
     $( function() {
         $("#dataInicial").datepicker({

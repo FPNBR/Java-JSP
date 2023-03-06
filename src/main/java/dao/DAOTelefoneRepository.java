@@ -64,7 +64,7 @@ public class DAOTelefoneRepository {
         }catch (Exception e) {
             e.printStackTrace();
             connection.rollback();
-            throw new SQLException("Erro ao deletar telefone" + e.getMessage());
+            throw new SQLException("Erro ao deletar telefone: " + e.getMessage());
         }
     }
 

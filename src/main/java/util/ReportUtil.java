@@ -22,7 +22,7 @@ public class ReportUtil implements Serializable {
 
         }catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("Erro ao exportar o arquivo Jasper para PDF" + e.getMessage());
+            throw new Exception("Erro ao exportar o arquivo Jasper para PDF " + e.getMessage());
         }
     }
 }
