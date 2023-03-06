@@ -69,6 +69,12 @@
       </dependency>
 
       <dependency>
+          <groupId>net.sf.jasperreports</groupId>
+          <artifactId>jasperreports</artifactId>
+          <version>6.20.0</version>
+      </dependency>
+
+      <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
       <version>${junit.version}</version>
@@ -83,12 +89,20 @@
 
     </dependency>      </dependencies>
 
-  <build>
+    <build>
         <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>3.3.2</version>
-      </plugin>                </plugins>
-  </build>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.2</version>
+                <configuration>
+                    <packagingExcludes>
+                        META-INF/*.SF,
+                        META-INF/*.DSA,
+                        META-INF/*.RSA
+                    </packagingExcludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
