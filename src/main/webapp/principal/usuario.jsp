@@ -49,11 +49,11 @@
                                                                 <div class="input-group-prepend">
                                                                     <c:if test="${modelLogin.fotoUsuario != '' && modelLogin.fotoUsuario != null}">
                                                                         <a href="<%= request.getContextPath()%>/ServletUsuarioController?acao=downloadFotoUsuario&id=${modelLogin.id}">
-                                                                        <img class="img-70 img-radius" id="fotoBase64" src="${modelLogin.fotoUsuario}" alt="Foto Usuário" style="width: 70px; height: 70px;">
+                                                                        <img class="img-80 img-radius" id="fotoBase64" src="${modelLogin.fotoUsuario}" alt="Foto Usuário" style="width: 80px; height: 80px;">
                                                                         </a>
                                                                     </c:if>
                                                                     <c:if test="${modelLogin.fotoUsuario == '' || modelLogin.fotoUsuario == null}">
-                                                                        <img class="img-70 img-radius" id="fotoBase64" src="/Java-JSP/assets/images/icon_user.png" alt="User-Profile-Image">
+                                                                        <img class="img-80 img-radius" id="fotoBase64" src="/Java-JSP/assets/images/icon_user.png" alt="User-Profile-Image" style="width: 80px; height: 80px;">
                                                                     </c:if>
                                                                 </div>
                                                                 <input type="file" id="arquivoFoto" name="arquivoFoto" accept="image/*" onchange="fotoUsuario('fotoBase64', 'arquivoFoto');" class="form-control-file" style="margin-left: 5px;">

@@ -11,10 +11,10 @@
       <div class="main-menu-header">
 
         <c:if test="${fotoUsuario != '' && fotoUsuario != null}">
-          <img class="img-80 img-radius" src="${fotoUsuario}" alt="Foto usuário">
+          <img class="img-80 img-radius" src="${fotoUsuario}" alt="Foto usuário" style="width: 80px; height: 80px;">
         </c:if>
         <c:if test="${fotoUsuario == '' || fotoUsuario == null}">
-          <img class="img-80 img-radius" src="<%= request.getContextPath() %>/assets/images/icon_user.png" alt="Foto padrão">
+          <img class="img-80 img-radius" src="<%= request.getContextPath() %>/assets/images/icon_user.png" alt="Foto padrão" style="width: 80px; height: 80px;">
         </c:if>
         <div class="user-details">
           <span id="more-details"><%= session.getAttribute("usuario")%><i class="fa fa-caret-down"></i></span>

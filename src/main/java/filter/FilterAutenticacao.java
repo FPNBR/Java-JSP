@@ -1,22 +1,60 @@
 package filter;
 
 import connection.SingleConnection;
+import dao.DAOVersionadorBanco;
 
 import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 @WebFilter (urlPatterns = {"/principal/*"}) // Intercepta todas as requisições que vierem do projeto ou mapeamento
 public class FilterAutenticacao implements Filter {
 
-    private static Connection connection;
+    private Connection connection;
 
     public void init(FilterConfig config) throws ServletException { // Inicia os processos ou recursos quando o servidor inicia
-        connection = SingleConnection.getConnection();
+        try {
+            connection = SingleConnection.getConnection();
+            DAOVersionadorBanco daoVersionadorBanco = new DAOVersionadorBanco();
+            String caminhoPastaSQL = config.getServletContext().getRealPath("versionadorBancoSQL") + File.separator;
+            File[] filesSql = new File(caminhoPastaSQL).listFiles();
+            System.out.println("rsrs");
+
+            for (File file : filesSql) {
+                boolean arquivoJaExecutou = daoVersionadorBanco.arquivoSqlExecutado(file.getName());
+
+                if (!arquivoJaExecutou) {
+                    FileInputStream entradaArquivo = new FileInputStream(file);
+                    Scanner lerArquivo = new Scanner(entradaArquivo, "UTF-8");
+                    StringBuilder sql = new StringBuilder();
+
+                    while (lerArquivo.hasNext()) {
+                        sql.append(lerArquivo.nextLine());
+                        sql.append("\n");
+                    }
+
+                    connection.prepareStatement(sql.toString()).execute();
+                    daoVersionadorBanco.salvarArquivoSqlExecutado(file.getName());
+                    connection.commit();
+                    lerArquivo.close();
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
     public void destroy() { // Encerra os processos quando o servidor é parado
