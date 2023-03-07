@@ -87,27 +87,27 @@
                                                         <div class="form-group form-default form-static-label">
                                                         <select class="form-control" aria-label="Default select example" name="perfil">
                                                             <option disabled>[Selecione o perfil do usuário]</option>
-                                                            <option value="admin" <%
+                                                            <option value="Sênior" <%
                                                                 ModelLogin modelLogin = (ModelLogin) request.getAttribute("modelLogin");
-                                                                if (modelLogin != null && modelLogin.getPerfil().equals("admin")) {
+                                                                if (modelLogin != null && modelLogin.getPerfil().equals("Sênior")) {
                                                                 out.print(" ");
                                                                     out.print("selected=\"selected\"");
                                                                 out.print(" ");
-                                                            }%>>Admin</option>
-                                                            <option value="secretario" <%
+                                                            }%>>Sênior</option>
+                                                            <option value="Pleno" <%
                                                                 modelLogin = (ModelLogin) request.getAttribute("modelLogin");
-                                                                if (modelLogin != null && modelLogin.getPerfil().equals("secretario")) {
+                                                                if (modelLogin != null && modelLogin.getPerfil().equals("Pleno")) {
                                                                 out.print(" ");
                                                                 out.print("selected=\"selected\"");
                                                                 out.print(" ");
-                                                            }%>>Secretário</option>
-                                                            <option value="auxiliar" <%
+                                                            }%>>Pleno</option>
+                                                            <option value="Júnior" <%
                                                                 modelLogin = (ModelLogin) request.getAttribute("modelLogin");
-                                                                if (modelLogin != null && modelLogin.getPerfil().equals("auxiliar")) {
+                                                                if (modelLogin != null && modelLogin.getPerfil().equals("Júnior")) {
                                                                 out.print(" ");
                                                                 out.print("selected=\"selected\"");
                                                                 out.print(" ");
-                                                            }%>>Auxiliar</option>
+                                                            }%>>Júnior</option>
                                                         </select>
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">Perfil:</label>
@@ -290,7 +290,6 @@
             changeYear: true
         });
     });
-
 
     $("#numero_casa").keypress(function (event) {
         return /\d/.test(String.fromCharCode(event.keyCode));
