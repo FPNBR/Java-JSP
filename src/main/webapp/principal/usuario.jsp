@@ -273,8 +273,12 @@
     $("#renda_mensal").focus();
 
     var data_nascimento = $("#data_nascimento").val();
-    var dateFormat = new Date(data_nascimento);
-    $("#data_nascimento").val(dateFormat.toLocaleDateString('pt-BR', {timeZone : 'UTC'}));
+
+    if (data_nascimento != null && data_nascimento != '') {
+        var dateFormat = new Date(data_nascimento);
+        $("#data_nascimento").val(dateFormat.toLocaleDateString('pt-BR', {timeZone : 'UTC'}));
+    }
+
     $("#nomeUsuario").focus();
 
     $( function() {
