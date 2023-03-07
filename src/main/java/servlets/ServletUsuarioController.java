@@ -176,9 +176,11 @@ public class ServletUsuarioController extends ServletGenericUtil {
                     response.getWriter().write(dadosUsuariosJSON);
 
                 }else {
-
+                    GraficoSalarioDTO graficoSalarioDTO = daoUsuarioRepository.gerarGraficoMediaSalario(super.getUsuarioLogado(request), dataInicial, dataFinal);
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    String dadosUsuariosJSON = objectMapper.writeValueAsString(graficoSalarioDTO);
+                    response.getWriter().write(dadosUsuariosJSON);
                 }
-
             }
 
             else {

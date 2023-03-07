@@ -81,6 +81,8 @@
 
 <script type="text/javascript">
 
+    var myChart = new Chart(document.getElementById('myChart'));
+
     function gerarGraficoSalario() {
         var urlAction = document.getElementById('formUsuario').action;
         var dataInicial = document.getElementById('dataInicial').value;
@@ -93,7 +95,9 @@
             success: function (response) {
                 var json = JSON.parse(response);
 
-                var myChart = new Chart(
+                myChart.destroy();
+
+                myChart = new Chart(
                     document.getElementById('myChart'),
                     {
                         type: 'bar',

@@ -17,36 +17,6 @@ public class DAOUsuarioRepository {
         connection = SingleConnection.getConnection();
     }
 
-    public GraficoSalarioDTO gerarGraficoMediaSalario(Long usuarioLogado) throws SQLException {
-        try {
-            String sql = "SELECT AVG(renda_mensal) AS media_salarial, perfil FROM model_login WHERE usuario_id = ? AND perfil != 'admin' GROUP BY perfil";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setLong(1, usuarioLogado);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            List<String> perfis = new ArrayList<>();
-            List<Double> salarios = new ArrayList<>();
-
-            GraficoSalarioDTO graficoSalarioDTO = new GraficoSalarioDTO();
-
-            while (resultSet.next()) {
-                Double media_salarial = resultSet.getDouble("media_salarial");
-                String perfil = resultSet.getString("perfil");
-                perfis.add(perfil);
-                salarios.add(media_salarial);
-            }
-            graficoSalarioDTO.setPerfis(perfis);
-            graficoSalarioDTO.setSalarios(salarios);
-
-            return graficoSalarioDTO;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            connection.rollback();
-            throw new SQLException("Erro ao gerar média salarial dos usuarios: " + e.getMessage());
-        }
-    }
-
     public ModelLogin salvarUsuario(ModelLogin usuario, Long usuarioLogado) throws SQLException {
 
         try {
@@ -564,6 +534,69 @@ public class DAOUsuarioRepository {
             e.printStackTrace();
             connection.rollback();
             throw new SQLException("Erro ao carregar lista de telefones: " + e.getMessage());
+        }
+    }
+
+    public GraficoSalarioDTO gerarGraficoMediaSalario(Long usuarioLogado) throws SQLException {
+        try {
+            String sql = "SELECT AVG(renda_mensal) AS media_salarial, perfil FROM model_login WHERE usuario_id = ? AND perfil != 'admin' GROUP BY perfil";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1, usuarioLogado);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            List<String> perfis = new ArrayList<>();
+            List<Double> salarios = new ArrayList<>();
+
+            GraficoSalarioDTO graficoSalarioDTO = new GraficoSalarioDTO();
+
+            while (resultSet.next()) {
+                Double media_salarial = resultSet.getDouble("media_salarial");
+                String perfil = resultSet.getString("perfil");
+                perfis.add(perfil);
+                salarios.add(media_salarial);
+            }
+            graficoSalarioDTO.setPerfis(perfis);
+            graficoSalarioDTO.setSalarios(salarios);
+
+            return graficoSalarioDTO;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            connection.rollback();
+            throw new SQLException("Erro ao gerar média salarial dos usuarios: " + e.getMessage());
+        }
+    }
+
+    public GraficoSalarioDTO gerarGraficoMediaSalario(Long usuarioLogado, String dataInicial, String dataFinal) throws SQLException {
+        try {
+            String sql = "SELECT AVG(renda_mensal) AS media_salarial, perfil FROM model_login WHERE usuario_id = ? AND data_nascimento >= ? AND data_nascimento <= ? AND perfil != 'admin' GROUP BY perfil";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1, usuarioLogado);
+            preparedStatement.setDate(2, Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataInicial))));
+            preparedStatement.setDate(3, Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataFinal))));
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            List<String> perfis = new ArrayList<>();
+            List<Double> salarios = new ArrayList<>();
+
+            GraficoSalarioDTO graficoSalarioDTO = new GraficoSalarioDTO();
+
+            while (resultSet.next()) {
+                Double media_salarial = resultSet.getDouble("media_salarial");
+                String perfil = resultSet.getString("perfil");
+                perfis.add(perfil);
+                salarios.add(media_salarial);
+            }
+            graficoSalarioDTO.setPerfis(perfis);
+            graficoSalarioDTO.setSalarios(salarios);
+
+            return graficoSalarioDTO;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            connection.rollback();
+            throw new SQLException("Erro ao gerar média salarial dos usuarios: " + e.getMessage());
         }
     }
 }
