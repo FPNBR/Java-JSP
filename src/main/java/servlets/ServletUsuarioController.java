@@ -1,5 +1,6 @@
 package servlets;
 
+import DTO.GraficoSalarioDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.DAOUsuarioRepository;
 import model.ModelLogin;
@@ -162,6 +163,22 @@ public class ServletUsuarioController extends ServletGenericUtil {
                 }
                 response.setHeader("Content-Disposition", "attachment;filename=" + "relatorio-usuario." + extensao);
                 response.getOutputStream().write(relatorio);
+            }
+
+            else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("gerarGraficoSalario")) {
+                String dataInicial = request.getParameter("dataInicial");
+                String dataFinal = request.getParameter("dataFinal");
+
+                if (dataInicial == null || dataInicial.isEmpty() && dataFinal == null || dataFinal.isEmpty()) {
+                    GraficoSalarioDTO graficoSalarioDTO = daoUsuarioRepository.gerarGraficoMediaSalario(super.getUsuarioLogado(request));
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    String dadosUsuariosJSON = objectMapper.writeValueAsString(graficoSalarioDTO);
+                    response.getWriter().write(dadosUsuariosJSON);
+
+                }else {
+
+                }
+
             }
 
             else {

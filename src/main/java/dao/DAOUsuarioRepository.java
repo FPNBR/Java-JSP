@@ -19,7 +19,7 @@ public class DAOUsuarioRepository {
 
     public GraficoSalarioDTO gerarGraficoMediaSalario(Long usuarioLogado) throws SQLException {
         try {
-            String sql = "SELECT AVG(renda_mensal) AS media_salarial, perfil FROM model_login WHERE usuario_id = ? GROUP BY perfil";
+            String sql = "SELECT AVG(renda_mensal) AS media_salarial, perfil FROM model_login WHERE usuario_id = ? AND perfil != 'admin' GROUP BY perfil";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setLong(1, usuarioLogado);
             ResultSet resultSet = preparedStatement.executeQuery();

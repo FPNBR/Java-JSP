@@ -39,7 +39,7 @@
                                             <div class="card">
                                                 <div class="card-block">
                                                     <h4 class="sub-title">Relatório de Usuário</h4>
-                                                    <form class="form-material" action="<%=request.getContextPath()%>/ServletUsuarioController?acao=imprimirRelatorioUsuario" method="get" id="formUsuario">
+                                                    <form class="form-material" action="<%=request.getContextPath()%>/ServletUsuarioController" method="get" id="formUsuario">
                                                         <input type="hidden" id="acaoImprimirRelatorioTipo" name="acao" value="imprimirRelatorioUsuario">
 
                                                         <div class="form-row align-items-center">
@@ -54,15 +54,13 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-auto">
-                                                                <button type="button" onclick="gerarGrafico();" class="btn btn-primary">Gerar Gráfico</button>
+                                                                <button type="button" onclick="gerarGraficoSalario();" class="btn btn-primary">Gerar Gráfico</button>
                                                             </div>
                                                         </div>
                                                     </form>
-
                                                         <div>
                                                             <canvas id="myChart"></canvas>
                                                         </div>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -81,34 +79,49 @@
 
 <jsp:include page="javascriptfile.jsp"></jsp:include>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.min.js"></script>
-
 <script type="text/javascript">
 
-    function gerarGrafico() {
-        var myChart = new Chart(
-            document.getElementById('myChart'),
-            {
-            type: 'line',
-                data: {
-                    labels: [
-                        'January',
-                        'February',
-                        'March',
-                        'April',
-                        'May',
-                        'June'
-                    ],
-                    datasets: [{
-                        label: 'Gráfico de média salarial por tipo de usuário',
-                        backgroundColor: 'rgb(255, 99, 132',
-                        borderColor: 'rgb(255, 99, 132',
-                        data: [0, 10, 5, 2, 20, 30, 45],
-                    }]
-                },
-                options: {}
+    function gerarGraficoSalario() {
+        var urlAction = document.getElementById('formUsuario').action;
+        var dataInicial = document.getElementById('dataInicial').value;
+        var dataFinal = document.getElementById('dataFinal').value;
+
+        $.ajax({
+            method: 'get',
+            url: urlAction,
+            data: 'dataInicial=' + dataInicial + '&dataFinal=' + dataFinal + '&acao=gerarGraficoSalario',
+            success: function (response) {
+                var json = JSON.parse(response);
+
+                var myChart = new Chart(
+                    document.getElementById('myChart'),
+                    {
+                        type: 'bar',
+                        data: {
+                            labels: json.perfis,
+                            datasets: [{
+                                label: 'Gráfico de média salarial por tipo de usuário',
+                                backgroundColor: '#2196F3',
+                                borderColor: '#2196F3',
+                                data: json.salarios.map(function(salario) { return salario < 0 ? 0 : salario }),
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    }
+                );
             }
-        );
+
+        }).fail(function (xhr, status, errorThrown){
+            alert('Erro ao gerar média salarial dos usuarios: ' + xhr.responseText);
+        });
     }
 
     $( function() {
