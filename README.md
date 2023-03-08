@@ -5,13 +5,13 @@
 O projeto full-stack foi desenvolvido utilizando Servlets com JSP, JDBC com SQL, Java, JavaScript, Jquery, Bootstrap, Jasper para relatórios e Apache Poi para gerar planilha excel.
 
 ## Layout web
-![Web 1](https://github.com/FPNBR/Java-JSP/blob/main/src/main/webapp/assets/images/cadastro.jpg)
+![Web 1](https://github.com/FPNBR/Java-JSP/blob/main/src/main/webapp/assets/images/cadastro.png)
 
-![Web 2](https://github.com/FPNBR/Java-JSP/blob/main/src/main/webapp/assets/images/modal.jpg)
+![Web 2](https://github.com/FPNBR/Java-JSP/blob/main/src/main/webapp/assets/images/Modal.png)
 
-![Web 3](https://github.com/FPNBR/Java-JSP/blob/main/src/main/webapp/assets/images/relatorio.jpg)
+![Web 3](https://github.com/FPNBR/Java-JSP/blob/main/src/main/webapp/assets/images/relatorio.png)
 
-![Web 4](https://github.com/FPNBR/Java-JSP/blob/main/src/main/webapp/assets/images/grafico.jpg)
+![Web 4](https://github.com/FPNBR/Java-JSP/blob/main/src/main/webapp/assets/images/grafico.png)
 
 
 # Tecnologias utilizadas
