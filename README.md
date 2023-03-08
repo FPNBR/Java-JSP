@@ -2,7 +2,7 @@
 
 # Sobre o projeto
 
-O projeto full-stack foi desenvolvido utilizando Servlets com JSP, JDBC com SQL, Java, JavaScript, Jquery, Bootstrap, Jasper para relatórios e Apache Poi para gerar planilha excel.
+Levou um mês de estudo/desenvolvimento mas foi um baita aprendizado, o projeto full-stack foi desenvolvido utilizando Servlets com JSP, JDBC com SQL e Postgresql, Java, JavaScript, Jquery, Bootstrap, Jasper Report para relatórios pdf e Apache Poi para gerar planilhas excel.
 
 ## Layout web
 ![Web 1](https://github.com/FPNBR/Java-JSP/blob/main/src/main/webapp/assets/images/cadastro.png)
@@ -19,7 +19,7 @@ O projeto full-stack foi desenvolvido utilizando Servlets com JSP, JDBC com SQL,
 - Java
 - Java Server Pages
 - JDBC/SQL/Postgresql
-- Jasper
+- Jasper Report
 - Apache POI
 - Apache Tomcat 9
 - Maven
