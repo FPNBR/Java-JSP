@@ -25,7 +25,6 @@ public class FilterAutenticacao implements Filter {
             DAOVersionadorBanco daoVersionadorBanco = new DAOVersionadorBanco();
             String caminhoPastaSQL = config.getServletContext().getRealPath("versionadorBancoSQL") + File.separator;
             File[] filesSql = new File(caminhoPastaSQL).listFiles();
-            System.out.println("rsrs");
 
             for (File file : filesSql) {
                 boolean arquivoJaExecutou = daoVersionadorBanco.arquivoSqlExecutado(file.getName());
