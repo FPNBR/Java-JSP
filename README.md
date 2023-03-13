@@ -38,8 +38,9 @@ Pré-requisitos: Java 11, Apache Tomcat 9, PostgreSQL14
 git clone https://github.com/FPNBR/Java-JSP.git
 
 # Instalar e configurar o Apache Tomcat 9
+# Instalar e configurar o banco de dados PostgreSQL executando os scripts no arquivo src/main/java/sqlbanco/sql.txt e criar um usuário admin
 
-# Gerar o arquivo .war do projeto e colocar na pasta do tomcat: \apache-tomcat-9.0.71\webapps
+# Gerar o arquivo .war do projeto e colocar na pasta do tomcat: \apache-tomcat-9.0.71\webapps ou executar pela própria IDE
 # Acessar por localhost:8080/Java-JSP/principal/index.jsp
 
 # Autor
